@@ -68,6 +68,21 @@ When asked to "verify the paper" or "check the numbers" or after re-running expe
 3. Compare; flag mismatches.
 4. Either update artifact or note in commit message what changed.
 
+## One coherent source per comparison
+
+When several values are compared side by side (a table, a benchmark, an A/B
+result, a before/after), every cell must come from **one coherent run / source**
+under the same protocol — never spliced across runs, configs, seeds, or
+hardware. Mixing sources silently produces contradictions (e.g. a prose summary
+citing one run while the table cites another).
+
+- Refresh comparison cells **together**, from a single regeneration, even the
+  ones you think didn't change.
+- If one cell genuinely comes from a different protocol, label that explicitly;
+  don't present it as comparable.
+- After any re-run, grep the prose for the old comparison numbers and confirm
+  they match the regenerated table.
+
 ## Notes
 
 - The point isn't to never restate values — it's to never restate without a traceable link.

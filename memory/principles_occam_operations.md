@@ -28,4 +28,8 @@ metadata:
 
 8. **Robust over clever.** Boring patterns survive interruption: parent-PID watchers beat pgrep-by-pattern; local polling loops beat stateful SSH sessions; explicit configs beat clever defaults.
 
-**Related skills (invoke when applicable):** [[triage-against-history]] for review/feedback responses; [[decision-gate]] for non-trivial changes; [[pin-and-trace]] when writing values into durable artifacts.
+9. **Foundations before heuristics: keep the three representations one.** Any nontrivial system exists as a formal spec/claim, an implementation that runs, and prose/docs. Reconcile them *before* any tuning, experiment, or scaling — a heuristic built on an inconsistent foundation is wasted the moment the inconsistency surfaces. Treat a behavioral or causal claim as a hypothesis until checked against the deployed artifact plus the cheapest discriminating measurement; and state a conditional claim's conditions where it is most prominently asserted, not only where it is proved. (Foundational, apply-first.)
+
+10. **Triangulate load-bearing claims.** The few facts everything else rests on (a core theorem, a key invariant, a critical default, a security assumption) earn confirmation by two or more *independent* routes — different methods, not the same check twice (symbolic + numeric + adversarial; closed-form + brute-force; proof + property-test). Independent agreement makes the foundation trustworthy up front, instead of re-auditing the whole edifice each time doubt resurfaces. When work B builds on A, identify and independently confirm *exactly which* results of A are load-bearing for B.
+
+**Related skills (invoke when applicable):** [[ground-truth-discipline]] foundational, apply-first (parity / verify-against-artifact / conditions-travel / triangulate); [[triage-against-history]] for review/feedback responses; [[decision-gate]] for non-trivial changes; [[pin-and-trace]] when writing values into durable artifacts.

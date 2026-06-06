@@ -63,6 +63,20 @@ For any action that costs >30 minutes of work or commits to an architectural/str
 - Sunk-cost commitment to a path the data doesn't support.
 - "I'll fix it as I go" plans that compound into multi-day rabbit holes.
 
+## Don't let one setting settle a structural decision
+
+A single dataset / benchmark / environment can be benign, noisy, or
+unrepresentative. Before committing to an architectural or structural choice,
+confirm the gate result holds on **at least two distinct settings** — otherwise
+you may be overfitting the decision to one case.
+
+- Open tension (calibrate, don't resolve blindly): this pulls *against* "act on
+  new evidence promptly." The default reconciliation: a **single** result is
+  enough to form a hypothesis and to *reverse a clearly-wrong prior claim*, but
+  not enough to *commit a structural change* — that needs corroboration on a
+  second setting. When the two pull hard in opposite directions, surface the
+  trade-off explicitly rather than silently picking one.
+
 ## When to override
 
 If the user explicitly asks for the big action without a gate, document the gate they're choosing to skip in one sentence and proceed. This is honest and avoids re-litigating.

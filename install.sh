@@ -16,7 +16,7 @@ done
 
 # Install skills
 echo "Installing skills to ~/.claude/skills/"
-for skill in triage-against-history decision-gate pin-and-trace; do
+for skill in ground-truth-discipline triage-against-history decision-gate pin-and-trace; do
   mkdir -p "$HOME/.claude/skills/$skill"
   cp "$SCRIPT_DIR/skills/$skill/SKILL.md" "$HOME/.claude/skills/$skill/SKILL.md"
   echo "  ✓ $skill"
@@ -30,7 +30,7 @@ if [[ -n "$PROJECT_SLUG" ]]; then
     echo "Memory file copied to: $PROJECT_MEM_DIR"
     echo ""
     echo "Add this line to $PROJECT_MEM_DIR/MEMORY.md (at the top):"
-    echo "- [Occam-operations principles](principles_occam_operations.md) — Apply Occam's razor at the operational level: smallest reversible step first, pin source of truth, persistent concern catalog, delete before add, decision gate, verify subprocess reports, robust over clever."
+    echo "- [Occam-operations principles](principles_occam_operations.md) — Apply Occam's razor at the operational level: smallest reversible step first, pin source of truth, persistent concern catalog, delete before add, decision gate, verify subprocess reports, robust over clever; foundations-first (parity); triangulate load-bearing claims."
   else
     echo "Project memory dir not found: $PROJECT_MEM_DIR"
     echo "Copy memory/principles_occam_operations.md to the correct project memory dir manually."

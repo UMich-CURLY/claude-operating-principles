@@ -9,8 +9,16 @@ actually closes the gap.
 ## What's in here
 
 - `memory/principles_occam_operations.md` — short rule set auto-applied
-  every session (load via memory system). Eight invariant principles
+  every session (load via memory system). Ten invariant principles
   with their rationale and how-to-apply notes.
+- `skills/ground-truth-discipline/SKILL.md` — **foundational, apply-first.**
+  Before building/optimizing/experimenting on any system, make its three
+  representations agree (spec/claim = implementation = prose); treat every
+  claim as a hypothesis until checked against the deployed artifact + a
+  discriminating measurement; state a conditional claim's conditions where
+  it is headlined; and confirm *load-bearing* claims by two or more
+  **independent** routes (so the foundation is trusted up front, not
+  re-audited later).
 - `skills/triage-against-history/SKILL.md` — when responding to
   feedback (reviews, bug reports, PR comments), triage against
   persistent records before editing. Classifies items as
@@ -28,7 +36,7 @@ actually closes the gap.
 git clone <this-repo-url> ~/Documents/GitHub/claude-operating-principles
 
 # 2. Skills go to ~/.claude/skills/
-for skill in triage-against-history decision-gate pin-and-trace; do
+for skill in ground-truth-discipline triage-against-history decision-gate pin-and-trace; do
   mkdir -p ~/.claude/skills/$skill
   cp skills/$skill/SKILL.md ~/.claude/skills/$skill/SKILL.md
 done
