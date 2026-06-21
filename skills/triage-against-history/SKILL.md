@@ -54,6 +54,15 @@ When the user pastes a review, bug report, code review comments, regression repo
 - Treating each new review as a fresh wave instead of incremental delta.
 - Saying "I've already addressed this" without pointing to where.
 
+## A reproduced failure is history too
+
+Triage applies to your *own* retries, not just external feedback. When a recovery
+action (retry, re-dispatch, re-run) lands in the **identical** failure state — same
+status, same frozen timestamps, same null/empty fields — treat that as evidence the
+cause is external/systemic (capacity, quota, a stuck dependency), not transient.
+Stop retrying; diagnose the shared dependency or shrink the request instead. Two
+identical failures cost double and teach the same lesson once.
+
 ## When to override
 
 If the user explicitly says "just fix all of them" or "don't triage, just do it," skip the table and proceed. Note that the user is overriding to maintain the contract.
