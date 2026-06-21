@@ -63,6 +63,13 @@ cause is external/systemic (capacity, quota, a stuck dependency), not transient.
 Stop retrying; diagnose the shared dependency or shrink the request instead. Two
 identical failures cost double and teach the same lesson once.
 
+- **"Too long" is measured in clock time, not turns.** Before calling something
+  stuck/slow, read the actual elapsed time from authoritative timestamps
+  (`started_at`/`created_at`) and compare it to the operation's normal latency
+  budget (e.g. GPU provisioning + dataset build is ~10–30 min). An agent's felt
+  sense of duration across many turns or interrupts is not a clock — don't escalate
+  on it.
+
 ## When to override
 
 If the user explicitly says "just fix all of them" or "don't triage, just do it," skip the table and proceed. Note that the user is overriding to maintain the contract.
