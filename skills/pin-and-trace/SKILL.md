@@ -83,6 +83,42 @@ citing one run while the table cites another).
 - After any re-run, grep the prose for the old comparison numbers and confirm
   they match the regenerated table.
 
+## Resource caps trace to a cost model — verify the model, not the knob
+
+Before a timeout, cap, or budget (max execution time, token/disk quota, batch
+size, retry limit) becomes load-bearing, confirm the actual unit and scaling of
+what it gates by reading the code path or runtime behavior — not the config name
+or comment.
+
+- Ask the scaling questions explicitly: is this count **per-process or global?
+  sharded or replicated? per-item or total?** The "obvious" reading is often wrong.
+- A config name or comment is a *claim*, not the source of truth. Trace it to where
+  the value is consumed (the loop bound, the sampler, the allocator).
+- A cap set against the wrong cost model **fails silently** — it looks generous and
+  still truncates the work. Example: a `num_samples` knob read as "total per epoch"
+  but applied *per-rank, unsharded* makes a 48h cap silently cut a run that needs
+  ~80h on 64 GPUs; verifying `steps_per_epoch = num_samples // batch_size` (no
+  world-size division) in the trainer surfaced it before committing the run.
+
+## Diagnosing auth / permission / control failures — trace to the authoritative scope
+
+When an action is denied or appears to fail, the message in front of you is a
+claim about state, not the state itself. Trace it before acting on it.
+
+- **A cached credential is a snapshot of permissions at issuance.** Granting a
+  role/scope does not update a token already minted — re-issuance (re-login) is
+  required. A 401/403 right after a grant is usually a stale token, not a missing
+  grant. (Watch for `--auto-renew`-style flags that *keep* a valid-but-stale token
+  instead of forcing a fresh one.)
+- **A permission error can be scope-blind.** When a 401/403 names "the roles you
+  currently have," confirm *which scope* (namespace/tenant/project/region) it
+  evaluated — it may be reporting a default context, not the one your command
+  targets. The fix is often a scope flag (e.g. `-n <namespace>`), not a new grant.
+- **A control surface may be cosmetic.** Before trusting that an action
+  (stop/cancel/delete/deploy) took effect, confirm it in the authoritative system,
+  not a dashboard that may only hold a proxy/label of the real resource (e.g. a
+  W&B "Stop" relabels the run but does not kill the underlying SageMaker job).
+
 ## Notes
 
 - The point isn't to never restate values — it's to never restate without a traceable link.

@@ -100,6 +100,14 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
 - Corollary for dependents: when work B builds on work A, identify exactly which
   results of A are load-bearing for B, and confirm *those* independently —
   rather than treating all of A as equally critical or equally trusted.
+- **A slow or expensive validator cannot tell you that you validated the wrong
+  artifact.** When replicating or porting a reference, small per-step deviations
+  accumulate until the thing under test is no longer the reference. Before an
+  expensive or slow check (days-long training, large eval, costly run), establish
+  a *cheap equivalence gate* against the reference — ideally numerical parity
+  (same weights + inputs → same outputs to tolerance), not just shape or
+  plausibility — and re-run it as the code changes. Gate fidelity upstream, where
+  it is cheap, instead of discovering drift downstream, where it is not.
 
 ## When to invoke
 
