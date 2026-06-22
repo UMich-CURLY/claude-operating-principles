@@ -70,6 +70,15 @@ identical failures cost double and teach the same lesson once.
   sense of duration across many turns or interrupts is not a clock — don't escalate
   on it.
 
+- **For environment-specific behavior, a human operator is a primary source —
+  consult before brute-forcing.** Schedulers, quotas, CI, and shared infra have
+  "normal" regimes that look like bugs (a job queued for days, a flaky timeout, a
+  capacity wall). Once a reproduced failure says "systemic," don't just keep
+  retrying or build elaborate workarounds — ask someone who runs the system; they
+  often know both that it's expected and the standard workaround (e.g. "8-node jobs
+  queue for days; use fewer / different-pool nodes"). Cheap question, expensive
+  guesses.
+
 ## When to override
 
 If the user explicitly says "just fix all of them" or "don't triage, just do it," skip the table and proceed. Note that the user is overriding to maintain the contract.
