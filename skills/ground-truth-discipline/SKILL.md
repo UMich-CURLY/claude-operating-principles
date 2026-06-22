@@ -108,6 +108,15 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   (same weights + inputs → same outputs to tolerance), not just shape or
   plausibility — and re-run it as the code changes. Gate fidelity upstream, where
   it is cheap, instead of discovering drift downstream, where it is not.
+- **Cross-harness evaluation: the output→metric mapping is a modeling decision.**
+  To score model A in model B's metric, you must map A's native representation into
+  B's format — treat that as a substantive choice, not plumbing. (a) Don't assume A
+  has a convention to copy; check — A's own eval may be a placeholder. (b) Watch for
+  silent degeneracy: if A's richer output doesn't fill B's format (a multimodal
+  predictor emitted as one trajectory), the metric returns a real-looking but
+  meaningless number (e.g. `minADE@k=6 == minADE@k=1`). (c) A plausible default can
+  encode wrong semantics (flattening a mode hierarchy by joint prob vs mapping
+  mode→mode); pick the mapping faithful to A's structure, and state it.
 
 ## When to invoke
 
