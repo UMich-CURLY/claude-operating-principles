@@ -124,6 +124,13 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   behavior (run the tests / a smoke), don't trust "no conflicts." Identify the
   both-sides-changed files up front (`comm` of the two diff name-lists) so you know
   exactly what to re-verify.
+- **A composite loss can move against the thing you care about — decompose before
+  judging.** An aggregate that sums fit + penalty/regularizer terms can rise while
+  the fit improves, because a penalty term grew (e.g. a mode-collapse/spike
+  regularizer spiking masks a trajectory loss that's still dropping). Don't read a
+  flat/rising headline loss as failure: break it into components and watch the one
+  that maps to the goal, plus the **held-out eval metric** — train loss can be flat
+  while eval improves. The aggregate is a sum, not a verdict.
 
 ## When to invoke
 
