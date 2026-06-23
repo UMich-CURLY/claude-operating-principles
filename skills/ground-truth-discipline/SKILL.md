@@ -117,6 +117,13 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   meaningless number (e.g. `minADE@k=6 == minADE@k=1`). (c) A plausible default can
   encode wrong semantics (flattening a mode hierarchy by joint prob vs mapping
   mode→mode); pick the mapping faithful to A's structure, and state it.
+- **A clean auto-merge is not a correct merge.** Zero merge conflicts only means no
+  *overlapping lines* — when two branches change related logic in different regions
+  of the same file, the VCS silently interleaves both, which can compile yet be
+  semantically broken. After any merge that touched a file both sides edited, verify
+  behavior (run the tests / a smoke), don't trust "no conflicts." Identify the
+  both-sides-changed files up front (`comm` of the two diff name-lists) so you know
+  exactly what to re-verify.
 
 ## When to invoke
 
