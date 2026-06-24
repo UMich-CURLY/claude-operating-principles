@@ -119,6 +119,26 @@ claim about state, not the state itself. Trace it before acting on it.
   not a dashboard that may only hold a proxy/label of the real resource (e.g. a
   W&B "Stop" relabels the run but does not kill the underlying SageMaker job).
 
+## Resolve an instruction's referent before acting — especially destructively
+
+A terse instruction ("those aren't reviewed", "don't ship it", "kill that") is a
+claim about *intent*, and its referent is ambiguous. Before you act on it — above
+all when the action is destructive or hard to reverse (cancel, delete, revert,
+overwrite) — resolve what it points at.
+
+- **Bind pronouns to the most recent topic, not the one most salient to you.**
+  "those / it / that" usually points at what the *user* was just discussing, not
+  at the action currently on *your* mind. Re-read the preceding 1–2 messages and
+  bind the referent there first.
+- **If still ambiguous, confirm the referent before the destructive act** — a
+  one-line "which X — A or B?" is cheaper than reversing the wrong action.
+- **A standing "don't <X>" overrides your in-flight plan.** If the user says
+  "don't cancel" while you're mid-cancel, stop — even if your read of an earlier
+  message seemed to justify it.
+- Failure mode this prevents: reading "0.3.1 (a feature branch) isn't reviewed"
+  as "*our working branch* isn't reviewed" and cancelling two wanted runs that
+  "don't cancel" had just protected — then having to re-dispatch.
+
 ## Notes
 
 - The point isn't to never restate values — it's to never restate without a traceable link.
