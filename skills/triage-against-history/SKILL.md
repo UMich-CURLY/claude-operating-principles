@@ -79,6 +79,28 @@ identical failures cost double and teach the same lesson once.
   queue for days; use fewer / different-pool nodes"). Cheap question, expensive
   guesses.
 
+## Attribute a failure to the harness vs the target before acting on it
+
+A cheap validation harness (smoke test, local repro, CI shim) often loads, configures,
+or runs the target differently than production. When it goes RED, decide whether the
+failure lives in the *target* or only in the *harness* before any destructive action
+(cancelling the real run, reverting, paging someone).
+
+- **Signals it's a harness artifact:** an environment/path/permission error (container
+  path absent locally, root-owned dir, missing local asset) or a failure that only
+  triggers under a harness-only branch (a local-only config merge, a debug flag, a mock).
+  These do not exist on the real target.
+- **Reproduce the EXACT runtime transform, not a simplified stand-in.** If "the config
+  looks clean but the run disagrees," replicate every post-load mutation the real
+  entrypoint applies (env-conditional merges, overrides, monkeypatches) and inspect the
+  object the code *actually instantiates* — not a freshly-composed/idealized one. A
+  static view that skips a runtime merge will lie. (Here: a plain `compose()` showed
+  clean readers; the trainer's `IS_LOCAL_ENV`-only `merge(cfg, cfg.local_override)`
+  clobbered them — only reproducing that merge revealed it.)
+- **A harness-only RED is not grounds to kill the real target.** Fix the harness so it
+  faithfully exercises the target, then re-gate — don't cancel a production run the
+  failure never applied to.
+
 ## When to override
 
 If the user explicitly says "just fix all of them" or "don't triage, just do it," skip the table and proceed. Note that the user is overriding to maintain the contract.
