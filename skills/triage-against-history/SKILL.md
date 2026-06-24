@@ -100,6 +100,13 @@ failure lives in the *target* or only in the *harness* before any destructive ac
 - **A harness-only RED is not grounds to kill the real target.** Fix the harness so it
   faithfully exercises the target, then re-gate — don't cancel a production run the
   failure never applied to.
+- **The mirror failure — false GREEN:** a harness can also PASS while the target fails,
+  when it supplies environment, credentials, inputs, or config the target won't have. A
+  GREEN only transfers if the harness's context MATCHES the target's — same creds, region,
+  mounts, flags, data availability, concurrency. Before trusting a pass, list what the
+  harness provides that the target lacks and treat each gap as an unproven path. (E.g. a
+  local smoke exporting a credential/region the production runner lacks reads a resource
+  prod can't — green locally, auth/region error in prod.)
 
 ## When to override
 
