@@ -42,7 +42,10 @@ checked against ground truth.
 - A causal/root-cause claim needs the **cheapest discriminating measurement**:
   an ablation that toggles the suspected cause, a bisection, a decomposition, a
   controlled sweep, a precision/scale check. Run it before you write the
-  explanation, not after.
+  explanation, not after. (For *designing* that measurement so its result
+  attributes cleanly — attributability, cheapest-falsifier-first, the severity
+  floor — see `diagnostic-discipline`; this skill's concern is that you verify
+  the claim against the artifact at all, not how you architect the test.)
 - Artifact beats claim. If a measurement contradicts the claim, the claim was
   wrong — say so and re-measure. Do not defend a narrative the data refuted.
 - **Verify guards with a positive case.** For any detector, alarm, validator, or
@@ -58,6 +61,29 @@ checked against ground truth.
   PATH/env, cwd, privileges, proxy vars, concurrency, connection/state reuse,
   timeouts — one axis at a time. The bug is in the context difference, not the
   operation; theorizing about the operation wastes the measurement.
+- **A config *file* is not the effective config.** Before reporting any
+  parameter value (weight, learning rate, flag, hyperparameter), resolve the
+  fully-overridden config — launch scripts, CLI/Hydra overrides, env vars, and
+  `defaults`/inheritance layer on top of the static file and routinely change
+  the value that actually runs. Read the launch command (or dump the merged
+  config) first; a value quoted from the base YAML is a hypothesis, not the
+  runtime truth.
+- **A metric's name is not its definition.** Before interpreting a logged
+  quantity (a loss curve, score, or rate) or explaining its trend, read the
+  formula that produces it — names mislead (a `baseline_trajectory_loss` that
+  bundles a diversity *reward* term goes negative; an `accuracy` that is
+  secretly top-5). An impossible or out-of-range value — a negative "norm", a
+  probability > 1, a loss below its theoretical floor — is not noise; it is
+  evidence your model of the metric is wrong. Re-read the code before trusting
+  any narrative about the trend.
+- **An inherited blocker is a hypothesis, not a constraint.** A "blocker", root
+  cause, or limitation carried in from a prior session's summary, a handoff,
+  memory, or a teammate's report feels authoritative but is second-hand — often
+  stale, misattributed, or garbled (e.g. a carried label like "spawn needs an
+  SDK bump to match model_config" that, traced to the code, turns out to be "no
+  blocker — the defaults already avoid it"). Before letting it gate work,
+  reproduce it against the current artifact. Re-grounding a carried claim costs
+  minutes; building around a phantom constraint costs far more.
 
 ## Principle 3 — Conditions travel with the claim
 

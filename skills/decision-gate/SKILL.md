@@ -5,6 +5,8 @@ description: Before any non-trivial change (architectural flip, large rewrite, e
 
 # decision-gate
 
+> **Relationship to the principle skills.** This is the concrete *workflow* for gating costly/structural work. The principles beneath it live elsewhere: `diagnostic-discipline` (how cheap the gating test should be, how much certainty to buy, and "don't let one setting settle a structural decision" — the cheapest-falsifier-first + certainty-allocation law) and `decision-under-irreversibility` (used when the gated action is hard to undo). Use those two for the *why*; use this for the *how*.
+
 For any action that costs >30 minutes of work or commits to an architectural/structural choice, **do not execute immediately**. First write down the decision gate.
 
 ## When to invoke
