@@ -14,11 +14,14 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Install skills
+# Install skills (iterate over the skills/ directory so this never drifts
+# from what the repo actually ships)
 echo "Installing skills to ~/.claude/skills/"
-for skill in ground-truth-discipline triage-against-history decision-gate pin-and-trace; do
+for dir in "$SCRIPT_DIR"/skills/*/; do
+  skill="$(basename "$dir")"
+  [ -f "$dir/SKILL.md" ] || continue
   mkdir -p "$HOME/.claude/skills/$skill"
-  cp "$SCRIPT_DIR/skills/$skill/SKILL.md" "$HOME/.claude/skills/$skill/SKILL.md"
+  cp "$dir/SKILL.md" "$HOME/.claude/skills/$skill/SKILL.md"
   echo "  ✓ $skill"
 done
 

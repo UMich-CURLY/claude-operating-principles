@@ -43,14 +43,18 @@ Auto-applied every session via `memory/principles_occam_operations.md`.
 
 ## Skills
 
-On-demand workflows that activate the principles when the work matches.
+On-demand workflows that activate the principles when the work matches. Two are
+abstract **principle** skills (the *why*); the other four are **operational**
+workflows (the *how*) that defer to the principles.
 
-| Skill | Use when | Does |
-|-------|----------|------|
-| **ground-truth-discipline** | starting on any system with a spec + code + docs; writing/reviewing a headline claim | **Foundational, apply-first.** Make the three representations agree; verify claims against the deployed artifact + a measurement; keep conditions co-located with the claim; confirm load-bearing claims by independent routes. |
-| **triage-against-history** | responding to reviews, bug reports, PR comments | Triage each item against persistent records before editing — classify as already-addressed / prose-stale / genuinely-new. |
-| **decision-gate** | before architectural flips, large rewrites, expensive sweeps | Require a pass/fail criterion + cheapest gating experiment + fallback before committing. |
-| **pin-and-trace** | writing values, claims, or decisions into durable artifacts | Single-source-of-truth rule: one canonical home, everything else references it. |
+| Skill | Kind | Use when | Does |
+|-------|------|----------|------|
+| **ground-truth-discipline** | principle | starting on any system with a spec + code + docs; writing/reviewing a headline claim | **Foundational, apply-first.** Make the three representations agree; verify claims against the deployed artifact + a measurement; keep conditions co-located with the claim; confirm load-bearing claims by independent routes. |
+| **diagnostic-discipline** | principle | choosing which experiment/ablation to run; deciding how much to test/prove/verify; a result is ambiguous about *what* caused it; reviewing whether evidence supports a claim | Route diagnosis vs. synthesis; design tests for *attributability* (cheapest falsifier first, one mechanism at a time); allocate verification effort by the cost of being wrong. |
+| **decision-gate** | operational | before architectural flips, large rewrites, expensive sweeps | Require a pass/fail criterion + cheapest gating experiment + fallback before committing. |
+| **decision-under-irreversibility** | operational | an action is costly or impossible to undo (migrations, DROP/DELETE, irreversible deploys, sending comms, publishing); autonomy/safety gating | Assess reversibility of the action *and* inaction; route on a 2×2; climb a ladder — buy reversibility, defer the irreversible kernel, stage with a principled stopping rule, else minimize worst-case. |
+| **pin-and-trace** | operational | writing values, claims, or decisions into durable artifacts | Single-source-of-truth rule: one canonical home, everything else references it. |
+| **triage-against-history** | operational | responding to reviews, bug reports, PR comments | Triage each item against persistent records before editing — classify as already-addressed / prose-stale / genuinely-new. |
 
 ## Install
 
@@ -58,10 +62,11 @@ On-demand workflows that activate the principles when the work matches.
 # 1. Clone
 git clone <this-repo-url> ~/Documents/GitHub/claude-operating-principles
 
-# 2. Skills go to ~/.claude/skills/
-for skill in ground-truth-discipline triage-against-history decision-gate pin-and-trace; do
+# 2. Skills go to ~/.claude/skills/ (installs every skill the repo ships)
+for dir in skills/*/; do
+  skill=$(basename "$dir")
   mkdir -p ~/.claude/skills/$skill
-  cp skills/$skill/SKILL.md ~/.claude/skills/$skill/SKILL.md
+  cp "$dir/SKILL.md" ~/.claude/skills/$skill/SKILL.md
 done
 
 # 3. Memory file goes to the project memory directory
