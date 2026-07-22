@@ -84,6 +84,20 @@ checked against ground truth.
   blocker — the defaults already avoid it"). Before letting it gate work,
   reproduce it against the current artifact. Re-grounding a carried claim costs
   minutes; building around a phantom constraint costs far more.
+- **A null/zero result from a command that may not have run is not evidence.** A
+  diff, count, or fetch reporting "0 changed / nothing / already up-to-date" is
+  meaningful only if the command actually executed against *current* inputs. A
+  missing tool (`timeout` absent on macOS aborts the line before `git` runs), a
+  silent auth failure (a fetch that authenticated as the wrong identity →
+  "Repository not found," leaving a stale remote-tracking ref), or a
+  never-refreshed local ref each produce a "no difference" indistinguishable from
+  the real thing — a false negative that reads like an answer. Confirm the
+  operation ran (exit status, expected side-effect) and that its inputs are fresh
+  before trusting the null. Especially when measuring divergence from a **moving
+  reference** (an upstream you track, a fork you replicate, a benchmark you
+  compare against): re-pin the reference's current version — fetch and confirm the
+  tip/commit — before believing "no drift"; the reference has its own version and
+  your copy may be stale.
 
 ## Principle 3 — Conditions travel with the claim
 
