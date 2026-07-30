@@ -25,6 +25,7 @@ For any action that costs >30 minutes of work or commits to an architectural/str
    - **Gate criterion** (numeric or boolean): what outcome would make us proceed with the big version? Be specific — "within seed noise" or "≥0.85 accuracy" or "no NaN in 1000 steps."
    - **Cheapest gating experiment**: the smallest measurement that tells us if the criterion is met. Target: <30 min wall-clock or <100 lines of code or 1 seed × small N.
    - **Fallback plan if the gate fails**: what's the next-cheapest move? Often it's "keep the current path and document the deviation."
+   - **Borderline rule + sentinel**: how to read a result near the criterion (an explicit noise margin or tie-break, so the read is robust to noise but still catches the signal), and which sentinel metric(s) the *next* checkpoint read should prioritize — usually the largest relative mover on the cost side.
 
 3. **Show the gate to the user before running it.** They may want to refine the criterion.
 
