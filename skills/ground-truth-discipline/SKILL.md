@@ -29,6 +29,13 @@ wasted the moment the inconsistency surfaces.
 - When they diverge, reconcile by (i) fixing the implementation to match the
   claim, or (ii) explicitly weakening/relabeling the claim. NEVER hide the gap
   behind "variant"/"default-vs-X" framing — that compounds across revisions.
+- **Parity is container-scoped, not file-scoped.** After reconciling the
+  primary document, sweep every sibling artifact that ships in the same
+  container (repo, Overleaf project, package, docs site) for the same stale
+  claims — old drafts, outlines, one-pagers, READMEs. A corrected main
+  document beside an uncorrected sibling still ships the contradiction; either
+  fix the sibling or quarantine it (e.g. an `archive/` dir with a note saying
+  why it must not be cited).
 - A spec that names a structure, or a results/figures set whose "method"
   silently differs across cases, is a red flag to resolve before proceeding.
 
