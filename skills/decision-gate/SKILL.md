@@ -26,6 +26,10 @@ For any action that costs >30 minutes of work or commits to an architectural/str
    - **Cheapest gating experiment**: the smallest measurement that tells us if the criterion is met. Target: <30 min wall-clock or <100 lines of code or 1 seed × small N.
    - **Fallback plan if the gate fails**: what's the next-cheapest move? Often it's "keep the current path and document the deviation."
    - **Borderline rule + sentinel**: how to read a result near the criterion (an explicit noise margin or tie-break, so the read is robust to noise but still catches the signal), and which sentinel metric(s) the *next* checkpoint read should prioritize — usually the largest relative mover on the cost side.
+   - **Executability**: every criterion names a metric that is *already emitted* AND whose producing job is *actually scheduled* — a gate whose deciding number nothing writes is fiction, and it invites metric-shopping at readout. Drop any condition whose every outcome leads to the same action.
+   - **Backfire condition**: state the failure signature that would read as "no change" under the pass threshold alone (e.g. a mechanism that can entrench the incumbent) — a gate that only tests for improvement cannot detect its own expected failure mode.
+   - **Exit criterion for the line**: when opening a workstream, not just an experiment, write the done-condition now — "when do we stop polishing" is a measurement, not a future argument.
+   - **Attribution unit**: usually one mechanism; deliberately a coupled pair when each member fixes the other's failure mode (isolating them buys an uninterpretable negative, not attribution). An artifact swap is gated on **every role** the artifact serves, not only the role that motivated the swap.
 
 3. **Show the gate to the user before running it.** They may want to refine the criterion.
 
@@ -57,6 +61,37 @@ For any action that costs >30 minutes of work or commits to an architectural/str
 - Gate: empirical signal at the smallest scale that's interpretable.
 - Cheap experiment: 1 seed × default N × short schedule.
 - Fallback: weaken claim to qualitative or move to "future work."
+
+## Keep the measurement loop causally clean
+
+Nothing inside an evaluation loop may depend on the thing being measured:
+
+- **Anchors and targets must be exogenous.** Never calibrate a parameter against the
+  system's own output (tuning a filter to reproduce labels that filter produced), and
+  never let a convergence procedure iterate against a fixed benchmark without a refresh
+  or holdout plan — a rigorous loop overfits an endogenous anchor *faster* than trial
+  and error, not slower.
+- **Denominators must be outcome-independent.** Normalizing by a quantity the treatment
+  changes (per-km rates when success ends episodes early) can invert a conclusion; a
+  rate can also be won by refusing to act (near-zero exposure scores safe on every
+  incident rate). Check what the treatment can change before choosing the denominator;
+  when two normalizations disagree, that disagreement is a finding to report, not a
+  choice to make silently.
+- **Intervening layers ship with counters.** Any assistive layer between the policy and
+  the metric (a safety clamp, fallback selector, retry wrapper) absorbs the signal being
+  measured unless its intervention rate is logged and read before crediting the system
+  it wraps.
+
+## State goals as inputs, not tuned knobs
+
+Prefer formulations where the desired quantity is the specification, not the target of a
+sweep: a constrained assignment that takes the target marginal as input over a weighted
+penalty with a free coefficient; constants *solved* from a measurement (a stickiness
+from a measured dwell time, a reweighting exponent from an effective-sample-size budget)
+over ranges to explore; loss weights sized by their measured contribution fraction, not
+by multiplier intuition (a term at 0.1% of the total needs ×300, not ×10). A free
+parameter that survives must carry a stated budget. Open-ended tuning is usually the
+symptom of having picked the penalty form when a constraint form existed.
 
 ## Anti-patterns this prevents
 

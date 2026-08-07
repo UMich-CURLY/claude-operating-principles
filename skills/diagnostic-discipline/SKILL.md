@@ -31,6 +31,19 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
 - **Run the cheap falsifier first.** Before investing in an expensive or hard-to-reverse confirmation (a full proof, a long training run, a costly experiment), run the cheapest check that could *kill* the claim. A numerical spot-check on a generic case that disproves an invariance claim is worth more, sooner, than a careful derivation that assumes it. Order checks by their power to falsify per unit cost.
 - **For ablations and A/Bs:** change one mechanism at a time, or use a design that makes effects separable, so a measured difference attributes to a single cause. An ablation that moves three things at once produces information you cannot assign.
 - **Decompose aggregates before comparing or optimizing them.** An aggregate metric (a benchmark average, a headline rate) is a bundle of members; never quote it head-to-head or aim a fix at it without breaking it down by category/member first. Check for degenerate members that move all systems equally (they deflate every comparison without ranking anything) and for effects concentrated in a subset (the fix then targets that subset, not the aggregate). And when a training-side target is set, state the specific downstream observables it should move — that is what makes the later result attributable.
+- **Continuations compare only at matched progress, with an untreated control.** When a
+  treatment adds training/time on top of a base artifact, either the baseline receives the
+  same additional progress or the comparison is made against the base's own curve at the
+  matched point — a treated late point vs an untreated early point conflates the treatment
+  with elapsed progress (whose sign may be negative: curves degrade). And the
+  **artifact-selection rule is part of the design**: ":latest"/"final" is a default, not a
+  decision — an unexamined selection policy can both hide better artifacts and manufacture
+  false beliefs about metric relationships (finals-only comparisons made a within-run
+  monotonic correlation look like "no correlation").
+- **When the proximal metric moves and the distal one doesn't, revise the causal model —
+  not the dose.** A confirmed proximal effect with a null distal effect falsifies the
+  assumed link between them; re-dosing the same mechanism buys nothing. Two failed
+  same-level fixes to one recurring symptom are the signal to change mechanism.
 - **There is a severity floor.** A hypothesis that assumes almost nothing also predicts almost nothing and cannot be tested sharply. Strip uncertain auxiliaries for attributability, but keep enough structure that the test would very probably have *caught* the hypothesis if it were false. Under-assuming is as much a failure as over-assuming; minimality is in service of a severe, attributable test, not an end in itself.
 
 For uncertain assumptions you cannot remove, the Bayesian move beats hand-minimization: make them explicit and **marginalize** over them. Model comparison's Occam factor then penalizes unnecessary complexity automatically — you get parsimony by integration instead of imposing it by fiat, and more safely.

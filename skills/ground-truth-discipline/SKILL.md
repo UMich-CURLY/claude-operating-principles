@@ -76,6 +76,21 @@ checked against ground truth.
   probability > 1, a loss below its theoretical floor — is not noise; it is
   evidence your model of the metric is wrong. Re-read the code before trusting
   any narrative about the trend.
+- **Inspect at the producing layer; completion signals lie.** Answer "what does X
+  contain / expose / do" from the artifact at its own layer: the producer that
+  writes a structure, never its consumers (a consumer-side grep is a lower bound
+  that silently reads as "impossible"); a pipeline's publish/output registry, not
+  its read side (code that *reads* a signal proves it exists upstream, not that it
+  survives into the output); the built image's contents, not the build's exit
+  code; the rendered pixels, not the linter. Existence is not integrity: gate
+  transfers on checksums, joins on an emitted coverage count (resolved/total),
+  and claimed capabilities by introspecting the artifact itself.
+- **Acted-on measurements decay — re-measure each iteration.** Any measurement
+  repeatedly acted on (a failure profile, a noise floor, a parked blocker list)
+  goes stale when the world — or your own previous fix — moves it; the bottleneck
+  migrates after every effective intervention. Re-profile before aiming the next
+  fix: a failure read taken under a superseded configuration confidently funds
+  work on an already-relieved bottleneck.
 - **An inherited blocker is a hypothesis, not a constraint.** A "blocker", root
   cause, or limitation carried in from a prior session's summary, a handoff,
   memory, or a teammate's report feels authoritative but is second-hand — often
@@ -163,7 +178,11 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   semantically broken. After any merge that touched a file both sides edited, verify
   behavior (run the tests / a smoke), don't trust "no conflicts." Identify the
   both-sides-changed files up front (`comm` of the two diff name-lists) so you know
-  exactly what to re-verify.
+  exactly what to re-verify. Conversely, resolving a conflict hunk by taking one side
+  can still break the build when an auto-merged region elsewhere in the file references
+  a symbol only the *other* side defined (a variable name, constant, or helper) — after
+  resolving, grep the file for the names each side introduced or removed and confirm
+  every reference still resolves.
 - **A composite loss can move against the thing you care about — decompose before
   judging.** An aggregate that sums fit + penalty/regularizer terms can rise while
   the fit improves, because a penalty term grew (e.g. a mode-collapse/spike
