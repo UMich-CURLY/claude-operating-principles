@@ -30,6 +30,7 @@ For any action that costs >30 minutes of work or commits to an architectural/str
    - **Backfire condition**: state the failure signature that would read as "no change" under the pass threshold alone (e.g. a mechanism that can entrench the incumbent) — a gate that only tests for improvement cannot detect its own expected failure mode.
    - **Exit criterion for the line**: when opening a workstream, not just an experiment, write the done-condition now — "when do we stop polishing" is a measurement, not a future argument.
    - **Attribution unit**: usually one mechanism; deliberately a coupled pair when each member fixes the other's failure mode (isolating them buys an uninterpretable negative, not attribution). An artifact swap is gated on **every role** the artifact serves, not only the role that motivated the swap.
+   - **Reuse before recompute**: before dispatching an expensive computation, check whether the artifact (or a usable subset) already exists — caches, sibling jobs, upstream stages of other pipelines that compute the same thing. Compute-once-reuse systems only pay off if you look.
 
 3. **Show the gate to the user before running it.** They may want to refine the criterion.
 

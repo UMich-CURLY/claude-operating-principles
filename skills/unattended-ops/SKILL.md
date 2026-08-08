@@ -26,6 +26,12 @@ GPU-hours.
   query once in the state it waits *for* and confirm it reads "open", and once in
   the busy state and confirm "closed". A predicate validated only against the
   failure that prompted it recurs under a new false positive.
+- **HARD RULE — quiesce file-sync around VCS writes; diffstat before every push.**
+  A sync daemon that mirrors `.git` can deliver a stale index, and a "one-file"
+  commit then silently snapshots an entire stale tree. Pause the sync for the
+  duration of any commit/merge/rebase on a synced repo, and before pushing verify
+  `git diff <expected-parent> HEAD --stat` lists exactly the intended files — a
+  one-file commit reporting "120 files changed" is this trap firing.
 
 ## Deployment
 
