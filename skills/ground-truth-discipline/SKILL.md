@@ -55,6 +55,14 @@ checked against ground truth.
   the claim against the artifact at all, not how you architect the test.)
 - Artifact beats claim. If a measurement contradicts the claim, the claim was
   wrong — say so and re-measure. Do not defend a narrative the data refuted.
+- **A fix is a new claim — verify what the fix adds, not just what it removes.**
+  Corrective edits tend to smuggle in fresh factual content (a scoping
+  parenthetical, a tightened condition, an "as in X" example) that was never
+  checked against the artifact. Before closing an item, verify every new
+  factual element the fix introduces exactly as you would an original claim;
+  when reviewing a round of fixes, treat the fix text as fresh unverified
+  claims to attack. Round-over-round convergence stalls precisely on errors
+  introduced by the previous round's corrections.
 - **Verify guards with a positive case.** For any detector, alarm, validator, or
   test of an error path (secret scanners, CI gates, monitoring, assertions), a
   *passing negative* (clean tree → exit 0) is NOT evidence it works — only that
