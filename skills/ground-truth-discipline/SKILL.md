@@ -90,7 +90,11 @@ checked against ground truth.
   secretly top-5). An impossible or out-of-range value — a negative "norm", a
   probability > 1, a loss below its theoretical floor — is not noise; it is
   evidence your model of the metric is wrong. Re-read the code before trusting
-  any narrative about the trend.
+  any narrative about the trend. Two metrics of the same system that cannot both
+  be true carry the same signal without any range being violated, and are often
+  the only way an out-of-domain instrument shows itself. Corroborate a surprising
+  number against a second, independent metric before building on it — and suspect
+  the instrument first when the surprise happens to favor you.
 - **Inspect at the producing layer; completion signals lie.** Answer "what does X
   contain / expose / do" from the artifact at its own layer: the producer that
   writes a structure, never its consumers (a consumer-side grep is a lower bound
@@ -100,6 +104,15 @@ checked against ground truth.
   code; the rendered pixels, not the linter. Existence is not integrity: gate
   transfers on checksums, joins on an emitted coverage count (resolved/total),
   and claimed capabilities by introspecting the artifact itself.
+- **Know what a measurement can resolve before it decides anything.** Identify the
+  unit of replication — what varies *independently* (episode, subject, run, scene),
+  not the sample count the tool prints — and compute the spread over that unit,
+  reported beside the value. Pooling correlated samples inflates n and manufactures
+  significance; a difference smaller than the spread is not a finding, and filing it
+  as one buys a later retraction. Where a pooled and a per-unit computation disagree,
+  the per-unit one governs and the disagreement is itself the result. This constrains
+  *conclusions*, not exploration: a cheap single-replicate probe remains a legitimate
+  way to form a hypothesis or overturn a clearly-wrong prior claim.
 - **Acted-on measurements decay — re-measure each iteration.** Any measurement
   repeatedly acted on (a failure profile, a noise floor, a parked blocker list)
   goes stale when the world — or your own previous fix — moves it; the bottleneck

@@ -42,6 +42,12 @@ GPU-hours.
   byte offset; a mid-run edit shifts what the loop reads next and corrupts
   execution while the process still reports alive. Copy to a new name, kill by
   PID (not by pattern — your kill command's own argv can match), relaunch.
+- **A synced or mounted tree is a live deploy.** Where a sync daemon, bind mount, or
+  hot-reload watcher connects your working copy to a running system, every save
+  ships — not only into the script currently executing (above) but into any module a
+  live process imports later: worker spawns, lazy imports, re-read configs. For the
+  duration of a run whose result you need, treat the tree as frozen and stage changes
+  outside it.
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it.
 
