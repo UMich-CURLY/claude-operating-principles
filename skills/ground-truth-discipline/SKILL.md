@@ -127,6 +127,18 @@ checked against ground truth.
   blocker — the defaults already avoid it"). Before letting it gate work,
   reproduce it against the current artifact. Re-grounding a carried claim costs
   minutes; building around a phantom constraint costs far more.
+- **Before publishing a claim, enumerate what it rests on and confirm you have shown
+  someone all of it.** An artifact built as a means to a measurement — a scenario, a
+  fixture, a harness, a one-off script — is categorized as disposable when created, and
+  nothing re-categorizes it when a published claim starts resting on it; it keeps behaving
+  like scratch, uncommitted and unreviewed. The trigger to re-ask is not "are we splitting
+  up the work" but "does a claim now depend on this", and that moment passes unmarked. The
+  same enumeration catches absence claims, which are verifiable only over the corpus the
+  absence is asserted about and never from the artifact under test — "held out" is a
+  statement about the training set. Both failures here were outward-facing: five
+  deliverables shipped the tools for an investigation and none shipped the two scenario
+  files every number was measured on, and a "held-out map" claim sat in a review-ready
+  description while the site was in the training data.
 - **A null/zero result from a command that may not have run is not evidence.** A
   diff, count, or fetch reporting "0 changed / nothing / already up-to-date" is
   meaningful only if the command actually executed against *current* inputs. A

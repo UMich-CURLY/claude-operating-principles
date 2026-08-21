@@ -30,6 +30,16 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
 - **Minimize the *uncertain auxiliary* assumptions a test depends on** — not all assumptions (imposed invariants are exempt; see Habit 1), and not for elegance, but so a failure attributes to the hypothesis rather than the scaffolding.
 - **Run the cheap falsifier first.** Before investing in an expensive or hard-to-reverse confirmation (a full proof, a long training run, a costly experiment), run the cheapest check that could *kill* the claim. A numerical spot-check on a generic case that disproves an invariance claim is worth more, sooner, than a careful derivation that assumes it. Order checks by their power to falsify per unit cost.
 - **For ablations and A/Bs:** change one mechanism at a time, or use a design that makes effects separable, so a measured difference attributes to a single cause. An ablation that moves three things at once produces information you cannot assign.
+- **A fixture you authored tests the code against your model, not against the world.**
+  Synthetic inputs are built from the same understanding as the code they exercise, so
+  they cannot reveal that the understanding is wrong: construct a trace to overshoot 2x
+  and assert 2.0, and the pair stays self-consistent while the real extraction is off by
+  60x. They are the right tool for plumbing — missing inputs, degradation paths, shapes,
+  absence handling — and no evidence at all about a measurement's semantics. Before a
+  measurement decides anything, run it once on recorded input and reconcile against
+  whatever previously measured that quantity; where nothing did, bound the result
+  physically. Then keep the real-data case as a regression test. "The suite is green" is a
+  statement about the fixtures.
 - **Decompose aggregates before comparing or optimizing them.** An aggregate metric (a benchmark average, a headline rate) is a bundle of members; never quote it head-to-head or aim a fix at it without breaking it down by category/member first. Check for degenerate members that move all systems equally (they deflate every comparison without ranking anything) and for effects concentrated in a subset (the fix then targets that subset, not the aggregate). And when a training-side target is set, state the specific downstream observables it should move — that is what makes the later result attributable.
 - **Continuations compare only at matched progress, with an untreated control.** When a
   treatment adds training/time on top of a base artifact, either the baseline receives the
