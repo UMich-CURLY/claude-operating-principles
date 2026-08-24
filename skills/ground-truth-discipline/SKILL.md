@@ -68,7 +68,10 @@ checked against ground truth.
   *passing negative* (clean tree → exit 0) is NOT evidence it works — only that
   it didn't fire. Inject a known-bad input and confirm it fires, and check that
   the injected input actually matches what you intend to catch (a too-weak
-  sample fakes a pass). A net you've only seen succeed is untested.
+  sample fakes a pass). A net you've only seen succeed is untested. This covers
+  any instrument you wrote, not just alarms: a search, filter, or parser that
+  returns nothing needs a positive control — find something you know exists —
+  because an empty result and a broken query are indistinguishable.
 - **Works-by-hand-but-fails-under-automation is a context bug.** When an
   automated process (daemon, hook, CI job, cron, subprocess) fails at something
   you can do manually, the discriminating measurement is to reproduce the exact

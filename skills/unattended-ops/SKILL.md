@@ -50,6 +50,17 @@ GPU-hours.
   outside it.
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it.
+- **Incidental machinery must not be able to destroy the run's product.** A long
+  unattended job exists to produce one artifact; anything optional around it —
+  telemetry, a logged image, a metrics push, the choice of output location — must
+  not be able to take that away. Two forms, both paid for: wrap every diagnostic
+  emission so a failure degrades to a warning, because a debug thumbnail that
+  raises will end a multi-day run as readily as a bad gradient; and persist the
+  product through a channel you have *verified you can read back* with the
+  credentials you actually hold, preferring a static credential over a session
+  token, and persisting the smallest sufficient artifact (a 513-parameter delta
+  over frozen pinned weights reconstructs the model; the gigabyte checkpoint buys
+  nothing). "The platform stores it" and "I can retrieve it" are different claims.
 
 ## Monitoring
 
