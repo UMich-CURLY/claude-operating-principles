@@ -97,15 +97,10 @@ checked against ground truth.
   be true carry the same signal without any range being violated, and are often
   the only way an out-of-domain instrument shows itself. Corroborate a surprising
   number against a second, independent metric before building on it — and suspect
-  the instrument first whenever the number is extreme in EITHER direction, not only
-  when the surprise flatters you. A reading that violates an invariant something
-  *enforces by construction* (a solver constraint row, a schema check, a type) is
-  evidence about the reader, not the system: the enforcement outranks the reader's
-  naming. So is a magnitude the system could not produce — a 552 m lateral error on a
-  lane a few metres wide. And confirm the instrument's input has the shape it assumes:
-  a reader fed the wrong columns returns a plausible number, not an error. A threshold
-  hardcoded into an instrument stops measuring what it names the moment the system is
-  reconfigured, so read bounds from the artifact rather than restating them.
+  the instrument first when a number is extreme in EITHER direction, not only when it
+  flatters you: a reading that violates an invariant something *enforces by
+  construction* is evidence about the reader. Read thresholds from the artifact — a
+  hardcoded bound stops measuring what it names once the system is reconfigured.
 - **Inspect at the producing layer; completion signals lie.** Answer "what does X
   contain / expose / do" from the artifact at its own layer: the producer that
   writes a structure, never its consumers (a consumer-side grep is a lower bound
@@ -124,17 +119,10 @@ checked against ground truth.
   the per-unit one governs and the disagreement is itself the result. This constrains
   *conclusions*, not exploration: a cheap single-replicate probe remains a legitimate
   way to form a hypothesis or overturn a clearly-wrong prior claim. **Selection is the
-  other limit, and it bites three ways.** On MEASUREMENT: a sample filtered by a
-  criterion correlated with the quantity cannot report that quantity — a label set
-  admitted only at |offset| >= 0.3 m is selected against exactly the small systematic
-  offset you would go to it to find. On GENERATION: a filter imposed for quality
-  reshapes the distribution along difficulty, so hard feasibility gates drop the hard
-  cases and the survivors teach the easy ones. On COVERAGE: what a dataset *contains*
-  is not what it *conditions on* — a set can be half centred driving by volume while
-  every example is anchored at a displaced state, leaving no demonstration from the
-  operating point the system spends its life at. Name the selection where the artifact
-  is described; "labels satisfying C" and "labels for the cases where C was
-  achievable" are different datasets.
+  other limit**: a sample filtered on a criterion correlated with the quantity cannot
+  report it, and what a dataset *contains* is not what it *conditions on* — it can be
+  half centred driving by volume while every example is anchored at a displaced state,
+  demonstrating nothing from the operating point. Name the selection where described.
 - **Acted-on measurements decay — re-measure each iteration.** Any measurement
   repeatedly acted on (a failure profile, a noise floor, a parked blocker list)
   goes stale when the world — or your own previous fix — moves it; the bottleneck
@@ -149,13 +137,9 @@ checked against ground truth.
   blocker — the defaults already avoid it"). Before letting it gate work,
   reproduce it against the current artifact. Re-grounding a carried claim costs
   minutes; building around a phantom constraint costs far more. **An inherited success
-  is a hypothesis too, and a quieter one** — it arrives as a reason to build rather
-  than a claim to check, so its conditions go unexamined precisely when they are
-  load-bearing. Before porting a validated result to a new setting, re-derive what it
-  was conditional on and check that against the new setting's *failure* distribution:
-  a label set whose median example is a straight road is evidence about a straight-road
-  task, and carrying it to a site that fails in curves is a new experiment wearing an
-  old result's confidence. The check is usually a histogram, available before the run.
+  is a hypothesis too, and a quieter one**: it arrives as a reason to build, not a
+  claim to check. Re-derive its conditions and check them against the new setting's
+  *failure* distribution before porting it — usually a histogram, available up front.
 - **Before publishing a claim, enumerate what it rests on and confirm you have shown
   someone all of it.** An artifact built as a means to a measurement — a scenario, a
   fixture, a harness, a one-off script — is categorized as disposable when created, and

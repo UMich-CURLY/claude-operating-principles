@@ -17,14 +17,10 @@ GPU-hours.
   script body, including whatever pattern the script's own gate greps for, so
   pattern-gates can block forever on the shell that created them (or on your own
   status-check ssh). Gate on owned tokens instead: a lock file, a PID file written
-  by the job itself, or a resource query **filtered to your workload**. The same trap
-  sits one surface up: address a remote object by a unique key, never by its position
-  in a listing. "The newest run", "the latest artifact" are selections over a shared
-  namespace ordered by a server you do not control — a sort parameter can be silently
-  ignored, and `order="-created_at"` has returned a twelve-day-old run as newest.
-  Query by an identifier that can match only your object and confirm exactly one came
-  back; a watcher bound to the wrong object does not fail, it reports confidently
-  about something else.
+  by the job itself, or a resource query **filtered to your workload**. Same trap one
+  surface up: address remote objects by unique key, never by position in a listing —
+  `order="-created_at"` has returned a twelve-day-old run as newest, and a watcher
+  bound to the wrong object does not fail, it reports about something else.
 - **Resource queries have a non-empty idle baseline.** "Wait until no CUDA
   contexts / no connections / no locks" asserts an invariant about the whole
   machine; shared machines violate it at rest (a desktop daemon holds a GPU
@@ -55,16 +51,11 @@ GPU-hours.
   live process imports later: worker spawns, lazy imports, re-read configs. For the
   duration of a run whose result you need, treat the tree as frozen and stage changes
   outside it.
-- **A leased credential must outlive the job it launches.** Session tokens (SSO, STS,
-  k8s, signed URLs, VPN) expire on a wall clock the job knows nothing about, and the
-  failure lands deep in the run, after the expensive part is spent. At launch, check
-  validity *and* compare remaining life against expected duration, refusing if it does
-  not fit: an 80-minute job under a 20-minute token is a scheduled failure, not bad
-  luck. Stamp an auth death distinctly from a data fault — `rc=1` cannot tell an
-  operator which happened, and they need opposite responses. Where several profiles or
-  scopes are in play, check the one the *failing step* will use, not the one in hand.
-  Where the work outlives any obtainable token, have the waiter poll for credentials to
-  return rather than fail and strand a finished artifact.
+- **A leased credential must outlive the job it launches.** At launch, compare the
+  token's remaining life against expected duration and refuse if it does not fit; the
+  failure otherwise lands after the expensive part is spent. Stamp an auth death
+  distinctly from a data fault — `rc=1` cannot tell them apart. Check the profile the
+  *failing step* uses, and where work outlives any token, poll rather than strand it.
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it.
 - **Incidental machinery must not be able to destroy the run's product.** A long
