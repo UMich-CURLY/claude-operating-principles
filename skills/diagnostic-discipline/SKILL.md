@@ -40,7 +40,19 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   whatever previously measured that quantity; where nothing did, bound the result
   physically. Then keep the real-data case as a regression test. "The suite is green" is a
   statement about the fixtures.
-- **Decompose aggregates before comparing or optimizing them.** An aggregate metric (a benchmark average, a headline rate) is a bundle of members; never quote it head-to-head or aim a fix at it without breaking it down by category/member first. Check for degenerate members that move all systems equally (they deflate every comparison without ranking anything) and for effects concentrated in a subset (the fix then targets that subset, not the aggregate). And when a training-side target is set, state the specific downstream observables it should move — that is what makes the later result attributable.
+- **Decompose aggregates before comparing or optimizing them.** An aggregate metric (a benchmark average, a headline rate) is a bundle of members; never quote it head-to-head or aim a fix at it without breaking it down by category/member first. Check for degenerate members that move all systems equally (they deflate every comparison without ranking anything) and for effects concentrated in a subset (the fix then targets that subset, not the aggregate). And when a training-side target is set, state the specific downstream observables it should move — that is what makes the later result attributable. The same holds for a **constraint set** and the fix aimed at it: only some constraints are active, and relaxing an inactive one buys nothing, so measure the fraction of each budget actually consumed before loosening "the envelope" — labels spending 97% of their jerk budget and 50% of their acceleration budget are jerk-limited, and raising the acceleration bound is a no-op dressed as a fix. Count the **upstream supply** as one of the candidate limits: a filter can only return what entered it, so relaxing a gate to gather more of a rare case is capped by that case's base rate in the source, and a ceiling no threshold reaches means the data must be synthesised rather than mined.
+- **Settle the comparison before running it: baseline headroom, baseline position, and
+  two-sided criteria.** *Headroom* — a baseline already at ceiling or floor on your
+  metric can only show harm, so a flat-or-worse result there is a property of the axis,
+  not evidence about the treatment; pick the condition the intervention targets and the
+  baseline demonstrably fails. *Position* — measure the thing the baseline was trained
+  to imitate against the *same* reference you grade against, because the untreated
+  model may already sit off its own training distribution and that gap gets charged to
+  your intervention. *Two-sided criteria* — an intervention aimed at a rare event
+  competes for capacity with the common one, so state up front both what must improve
+  and what must not regress, and grade both; a mixture weight or dose chosen to *limit
+  damage* is evidence that trade exists and belongs in the record as a design fact with
+  the regression it protects against, not as a tuned hyperparameter.
 - **Continuations compare only at matched progress, with an untreated control.** When a
   treatment adds training/time on top of a base artifact, either the baseline receives the
   same additional progress or the comparison is made against the base's own curve at the
