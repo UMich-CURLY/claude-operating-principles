@@ -140,6 +140,12 @@ checked against ground truth.
   is a hypothesis too, and a quieter one**: it arrives as a reason to build, not a
   claim to check. Re-derive its conditions and check them against the new setting's
   *failure* distribution before porting it — usually a histogram, available up front.
+  The converse case is a blocker you established first-hand and *well* — exhaustive
+  listings, positive controls, an instrument-checked negative. That settles whether
+  the answer is in the space you searched, not whether you searched the right space,
+  and reproducing it only reconfirms. Name the systems the sweep covered, then ask
+  which system already in hand might hold the answer — above all one categorized for
+  another purpose, because the category is the blindfold.
 - **Before publishing a claim, enumerate what it rests on and confirm you have shown
   someone all of it.** An artifact built as a means to a measurement — a scenario, a
   fixture, a harness, a one-off script — is categorized as disposable when created, and
@@ -156,10 +162,11 @@ checked against ground truth.
   diff, count, or fetch reporting "0 changed / nothing / already up-to-date" is
   meaningful only if the command actually executed against *current* inputs. A
   missing tool (`timeout` absent on macOS aborts the line before `git` runs), a
-  silent auth failure (a fetch that authenticated as the wrong identity →
-  "Repository not found," leaving a stale remote-tracking ref), or a
-  never-refreshed local ref each produce a "no difference" indistinguishable from
-  the real thing — a false negative that reads like an answer. Confirm the
+  connection dropped mid-command, a silent auth failure (a fetch that
+  authenticated as the wrong identity → "Repository not found," leaving a stale
+  remote-tracking ref), or a never-refreshed local ref each produce a "no
+  difference" indistinguishable from the real thing — a false negative that reads
+  like an answer. Confirm the
   operation ran (exit status, expected side-effect) and that its inputs are fresh
   before trusting the null. Especially when measuring divergence from a **moving
   reference** (an upstream you track, a fork you replicate, a benchmark you

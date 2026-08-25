@@ -48,6 +48,11 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   *Two-sided*: an intervention aimed at a rare event competes with the common one, so
   state what must improve AND what must not regress. A dose chosen to *limit damage*
   is evidence of that trade — a design fact, not a hyperparameter.
+  *Range*: the instrument too — a statistic monotone by construction cannot express
+  the refuting direction, so its agreement is nearly free. `max_memory_allocated`
+  with no `reset_peak_memory_stats` rises under a leak and also rises-then-plateaus
+  when healthy, so "it rose" is weak and "it never fell" is nothing; confirm
+  against an instrument with the opposite failure mode.
 - **Continuations compare only at matched progress, with an untreated control.** When a
   treatment adds training/time on top of a base artifact, either the baseline receives the
   same additional progress or the comparison is made against the base's own curve at the
