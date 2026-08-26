@@ -109,7 +109,8 @@ checked against ground truth.
   survives into the output); the built image's contents, not the build's exit
   code; the rendered pixels, not the linter. Existence is not integrity: gate
   transfers on checksums, joins on an emitted coverage count (resolved/total),
-  and claimed capabilities by introspecting the artifact itself.
+  and claimed capabilities by introspecting the artifact itself. Before writing an instrument, check whether an existing artifact already carries the quantity as a
+  column — twice in one day a two-hour analysis was a two-minute query.
 - **Know what a measurement can resolve before it decides anything.** Identify the
   unit of replication — what varies *independently* (episode, subject, run, scene),
   not the sample count the tool prints — and compute the spread over that unit,

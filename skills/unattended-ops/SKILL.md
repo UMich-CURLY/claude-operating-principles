@@ -18,7 +18,7 @@ GPU-hours.
   pattern-gates can block forever on the shell that created them (or on your own
   status-check ssh). Gate on owned tokens instead: a lock file, a PID file written
   by the job itself, or a resource query **filtered to your workload**. Same trap one
-  surface up: address remote objects by unique key, never by position in a listing —
+  surface up: address remote objects by unique key, never by position in a listing or by the newest line of a shared log —
   `order="-created_at"` has returned a twelve-day-old run as newest, and a watcher
   bound to the wrong object does not fail, it reports about something else.
 - **Resource queries have a non-empty idle baseline.** "Wait until no CUDA
