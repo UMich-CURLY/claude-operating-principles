@@ -86,6 +86,21 @@ checked against ground truth.
   the value that actually runs. Read the launch command (or dump the merged
   config) first; a value quoted from the base YAML is a hypothesis, not the
   runtime truth.
+- **Characterize an input before you spend compute on it.** A model artifact's
+  identity is its weights, not its name: establish which config loads it with zero
+  invalid keys and zero shape mismatches, and which candidate base leaves the
+  untouched modules bit-identical (a checkpoint described as a fine-tune of one
+  model was a different architecture from a different base). A dataset's identity is
+  its composition *as sampled* — after repeats, strides, deny-lists and weight
+  strategies — measured against the behaviour you intend to change; the replay or
+  anchor term needs the same audit, because it must contain the behaviours you are
+  afraid of losing (eleven fine-tune arms trained on a corpus with 0% turns and 0%
+  other agents, because a deny-list added to exclude one map removed every scene
+  containing traffic). A teacher's identity is its own score on your endpoint:
+  imitation cannot push a student below the variability of what it imitates, so
+  decompose the gap into the part already at parity with the source and the part that
+  is not — only the second is reachable by more data. One afternoon of measurement
+  here is routinely worth a month of arms.
 - **A metric's name is not its definition.** Before interpreting a logged
   quantity (a loss curve, score, or rate) or explaining its trend, read the
   formula that produces it — names mislead (a `baseline_trajectory_loss` that
@@ -111,6 +126,27 @@ checked against ground truth.
   transfers on checksums, joins on an emitted coverage count (resolved/total),
   and claimed capabilities by introspecting the artifact itself. Before writing an instrument, check whether an existing artifact already carries the quantity as a
   column — twice in one day a two-hour analysis was a two-minute query.
+- **To claim something was never done, enumerate — do not search.** A keyword grep
+  cannot prove absence when the keyword is optional: "the full benchmark has never
+  been run on this model" came from grepping a launch flag that defaults to the value
+  in question, and five such runs existed in the registry. Enumerate from the source
+  that lists every instance — the run database, the job list, the artifact index —
+  and check the default-valued case explicitly. An absence is a claim about a
+  population, and a query is not a population.
+- **A metric will certify inaction, reward early exit, and see only what it
+  measures.** Before crediting a pass, check how it was earned — success counters
+  reward degenerate strategies (twelve of nineteen "completed" episodes completed by
+  standing still, and every clean turn scenario was clean because the car stopped
+  rather than turned), so pair every completion or success metric with the activity
+  it presupposes: speed, distance, task progress. Report terminal outcomes beside any
+  per-step average, because a run that ends early stops accumulating error and the
+  failing arm is flattered by its own failure. Prefer the densest endpoint the
+  mechanism drives — rare-event counts need sample sizes an evaluation budget rarely
+  affords, while a per-step quantity resolves the same effect orders of magnitude
+  sooner — and use the rare event as confirmation, not as the primary read. And read
+  a null as bounding only what that instrument can register: zero interventions over
+  4.4 km did not mean the policy drove well, only that the counter cannot see a
+  lane-internal oscillation.
 - **Know what a measurement can resolve before it decides anything.** Identify the
   unit of replication — what varies *independently* (episode, subject, run, scene),
   not the sample count the tool prints — and compute the spread over that unit,
