@@ -20,7 +20,11 @@ GPU-hours.
   by the job itself, or a resource query **filtered to your workload**. Same trap one
   surface up: address remote objects by unique key, never by position in a listing or by the newest line of a shared log —
   `order="-created_at"` has returned a twelve-day-old run as newest, and a watcher
-  bound to the wrong object does not fail, it reports about something else.
+  bound to the wrong object does not fail, it reports about something else. And a gate
+  must not be able to satisfy itself: a waiter may never emit the signal it waits for in
+  any form — log line, heartbeat, status stamp, filename — or it fires on its own output.
+  *(Receipt: a start stamp that named the awaited token opened the gate early, three
+  times in one day.)*
 - **Resource queries have a non-empty idle baseline.** "Wait until no CUDA
   contexts / no connections / no locks" asserts an invariant about the whole
   machine; shared machines violate it at rest (a desktop daemon holds a GPU
@@ -29,6 +33,13 @@ GPU-hours.
   query once in the state it waits *for* and confirm it reads "open", and once in
   the busy state and confirm "closed". A predicate validated only against the
   failure that prompted it recurs under a new false positive.
+- **One serial resource, one scheduler.** When several jobs wait on the same serial
+  resource, priority is a property of one ordering, not of the waiters: independent
+  waiters race, and whichever polls or settles fastest wins regardless of what matters.
+  Encode the order explicitly in a single queue that ranks by what unblocks the next
+  decision, and make every yield an entry in that order. *(Receipt: a lower-priority job
+  with a 180 s settle beat a higher-priority one with a 330 s window after it had waited
+  four hours.)*
 - **HARD RULE — quiesce file-sync around VCS writes; diffstat before every push.**
   A sync daemon that mirrors `.git` can deliver a stale index, and a "one-file"
   commit then silently snapshots an entire stale tree. Pause the sync for the
@@ -51,11 +62,16 @@ GPU-hours.
   live process imports later: worker spawns, lazy imports, re-read configs. For the
   duration of a run whose result you need, treat the tree as frozen and stage changes
   outside it.
-- **A leased credential must outlive the job it launches.** At launch, compare the
-  token's remaining life against expected duration and refuse if it does not fit; the
-  failure otherwise lands after the expensive part is spent. Stamp an auth death
-  distinctly from a data fault — `rc=1` cannot tell them apart. Check the profile the
-  *failing step* uses, and where work outlives any token, poll rather than strand it.
+- **Anything leased must outlive the job that depends on it — and the lease is read from
+  the resource, not inferred from failures.** Credentials, compute instances, locks,
+  reservations, certificates, sessions: before launch, read the remaining life from the
+  resource's own state and refuse if it does not cover provisioning plus the run. A lease
+  that expires mid-job surfaces downstream as unrelated-looking errors, the most expensive
+  place to learn it. *(Receipt: a one-hour default lease under two-hour runs put a phantom
+  "2 errored" into every published number for a day.)* For credentials specifically: stamp
+  an auth death distinctly from a data fault — `rc=1` cannot tell them apart; check the
+  profile the *failing step* uses; and where work outlives any token, poll rather than
+  strand it.
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it.
 - **Incidental machinery must not be able to destroy the run's product.** A long
