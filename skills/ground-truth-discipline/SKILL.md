@@ -243,6 +243,14 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   enumeration; a proof **and** a property-test; one reviewer's read **and** a
   cross-check by a different construction. Two routes that share the same hidden
   assumption are not independent — a slip survives both.
+- **A gate is not a decision.** In core method development, never let a single
+  gate, test, or metric decide that an artifact is trustworthy: require two angles
+  that could fail in different ways, and treat "the gate passed" as one input, not
+  the verdict. A check whose probe cannot express the failure does not count as one
+  of the two — a lane-departure gate that re-measured points sitting exactly *on*
+  the reference passed at 1e-13 while the same function was wrong by 3,971 m for
+  points off it. Reserve single-check acceptance for genuinely trivial matters,
+  which core method work rarely is.
 - Front-load it on the load-bearing few, not everything. The point is leverage:
   the handful of facts whose failure cascades deserve redundant confirmation;
   routine facts need one good check (Principle 2).
