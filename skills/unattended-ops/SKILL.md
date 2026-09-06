@@ -25,6 +25,12 @@ GPU-hours.
   any form — log line, heartbeat, status stamp, filename — or it fires on its own output.
   *(Receipt: a start stamp that named the awaited token opened the gate early, three
   times in one day.)*
+- **A probe or kill must carry no matchable trace of its target.** Match by an identity only
+  the target produces, in an invocation that contains nothing else — or exclude the caller's
+  own ancestry from the match; repeating one filtered probe is not a second angle. *(Receipts:
+  a kill inside a compound command killed the command itself four times, once causing a
+  2.5 h watcher outage; a tag-filtered query concluded "no run" because the tag under test
+  was itself the defect.)*
 - **Resource queries have a non-empty idle baseline.** "Wait until no CUDA
   contexts / no connections / no locks" asserts an invariant about the whole
   machine; shared machines violate it at rest (a desktop daemon holds a GPU
@@ -33,6 +39,16 @@ GPU-hours.
   query once in the state it waits *for* and confirm it reads "open", and once in
   the busy state and confirm "closed". A predicate validated only against the
   failure that prompted it recurs under a new false positive.
+- **A stage boundary is crossed on the product, and only an integrity failure halts the
+  chain.** The consumer verifies the product's sufficiency itself — counts, gates, identity
+  matched by field position, a stamp dated after the consumer's own start — never the
+  producer's exit status or a substring of its log. A bound that ends a run by design
+  (timeout, budget, worker floor) hands the next stage a failure-shaped signal that only the
+  artifact can adjudicate; and a policy threshold on a value already saved is recorded and
+  carried forward, never aborted. *(Receipts: a labeler sat on a good recording that ended on
+  its own 12 h cap; a share-tolerance abort idled a pipeline; a worker floor sized for
+  24-episode evals killed three healthy 8-episode screens after an hour each; a stale DONE
+  and a quoted token each satisfied a waiter.)*
 - **One serial resource, one scheduler.** When several jobs wait on the same serial
   resource, priority is a property of one ordering, not of the waiters: independent
   waiters race, and whichever polls or settles fastest wins regardless of what matters.
@@ -100,6 +116,13 @@ GPU-hours.
   readout — the cost of a silent config miss grows with every hour it runs. Pair
   with a pre-dispatch guard that refuses to fire against a stale artifact, and
   watch the guard *refuse* once before opening it.
+- **A composition is verified member by member, and a member contributing nothing fails
+  the run before it starts.** "Unchanged input" is not "unchanged behavior" when the reader's
+  parameters moved; an input a program accepts but does not consume must fail loudly; a
+  completion stamp names the input it consumed. *(Receipts: a replay anchor yielded 0 samples
+  at a new window and a GPU-hour trained on labels alone; a scorer ignored its tag argument
+  and stamped success three times; a goal-less scenario silently fell back to a different
+  reference.)*
 
 ## When to invoke
 
