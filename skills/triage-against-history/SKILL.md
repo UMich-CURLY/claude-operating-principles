@@ -108,6 +108,14 @@ failure lives in the *target* or only in the *harness* before any destructive ac
   local smoke exporting a credential/region the production runner lacks reads a resource
   prod can't — green locally, auth/region error in prod.)
 
+## A team standard is not a choice
+
+Before framing a setting as a choice, or as a question for a teammate, check the team's shipped
+artifacts and configs for the standard they already encode. A deviation from that standard is a
+defect to fix, not a preference to negotiate. (Here: every vehicle bundle on S3 carried `rerank16`;
+the "which planner mode?" question for a teammate dissolved, and our single-plan fallback bundle
+turned out to be the thing that deviated.)
+
 ## When to override
 
 If the user explicitly says "just fix all of them" or "don't triage, just do it," skip the table and proceed. Note that the user is overriding to maintain the contract.
