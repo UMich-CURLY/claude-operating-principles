@@ -296,6 +296,17 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   that maps to the goal, plus the **held-out eval metric** — train loss can be flat
   while eval improves. The aggregate is a sum, not a verdict.
 
+## Principle 5 — One instrument for the data gate and the result metric
+
+The instrument that gates the training data and the instrument that scores the result must be
+the same code, validated once against inputs with known answers. Two instruments give two
+definitions of the same word, and a pass on one never transfers to the other. Reuse the
+validated kernel already on the main branch rather than writing a second differentiator; a
+private copy diverges and later cannot merge. (Here: the labeler's comfort audit read an
+internal speed profile while the closed-loop metric differentiated executed positions; neither
+number meant what the other did, and the vehicle debrief showed a 0.5 s smoothing window alone
+flipped a pass/fail verdict.)
+
 ## When to invoke
 
 - At the START of work on any system that has a spec/contract/theorem plus an
