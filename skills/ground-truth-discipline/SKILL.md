@@ -338,6 +338,9 @@ flipped a pass/fail verdict.)
 4. For any causal claim, run the smallest measurement that distinguishes your
    hypothesis from the alternatives before recording it.
 5. Artifact wins ties. Update the representation that was wrong; flag the change.
+6. For a rule that must hold at a boundary you don't consciously label — a log line
+   during another task, a status check, a copied template — put the check in the tool
+   that crosses the boundary (preflight, status probe, stamp); recall is not a mechanism.
 
 ## Anti-patterns this prevents
 
