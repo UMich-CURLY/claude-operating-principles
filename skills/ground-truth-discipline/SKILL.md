@@ -71,7 +71,10 @@ checked against ground truth.
   sample fakes a pass). A net you've only seen succeed is untested. This covers
   any instrument you wrote, not just alarms: a search, filter, or parser that
   returns nothing needs a positive control — find something you know exists —
-  because an empty result and a broken query are indistinguishable.
+  because an empty result and a broken query are indistinguishable. A dry-run or
+  no-op flag is such a guard: prove it by diffing the live targets afterwards (git
+  log, queue, stamps) — a sourced library reset the flag and the "dry" run
+  committed twice.
 - **Works-by-hand-but-fails-under-automation is a context bug.** When an
   automated process (daemon, hook, CI job, cron, subprocess) fails at something
   you can do manually, the discriminating measurement is to reproduce the exact
@@ -132,7 +135,9 @@ checked against ground truth.
   in question, and five such runs existed in the registry. Enumerate from the source
   that lists every instance — the run database, the job list, the artifact index —
   and check the default-valued case explicitly. An absence is a claim about a
-  population, and a query is not a population.
+  population, and a query is not a population. The same discipline governs a
+  failure verdict: "the launch failed", read from the first of four logs, killed
+  three healthy arms — one row per member before any set-level call.
 - **A metric will certify inaction, reward early exit, and see only what it
   measures.** Before crediting a pass, check how it was earned — success counters
   reward degenerate strategies (twelve of nineteen "completed" episodes completed by
@@ -146,7 +151,10 @@ checked against ground truth.
   sooner — and use the rare event as confirmation, not as the primary read. And read
   a null as bounding only what that instrument can register: zero interventions over
   4.4 km did not mean the policy drove well, only that the counter cannot see a
-  lane-internal oscillation.
+  lane-internal oscillation. A status is the weakest such metric: "running"
+  certifies a process, not progress — read the rate (steps per minute, time per
+  step, bytes moved) at the first check; an order of magnitude below the known rate
+  is a failure already in progress.
 - **Know what a measurement can resolve before it decides anything.** Identify the
   unit of replication — what varies *independently* (episode, subject, run, scene),
   not the sample count the tool prints — and compute the spread over that unit,
@@ -165,7 +173,10 @@ checked against ground truth.
   goes stale when the world — or your own previous fix — moves it; the bottleneck
   migrates after every effective intervention. Re-profile before aiming the next
   fix: a failure read taken under a superseded configuration confidently funds
-  work on an already-relieved bottleneck.
+  work on an already-relieved bottleneck. And when the instrument itself is found
+  wrong, list the choices it decided and re-test the earliest that is still cheap —
+  six rounds of gates without the set-speed slot meant re-testing the lineage from
+  its first slot model, not only the latest candidate.
 - **An inherited blocker is a hypothesis, not a constraint.** A "blocker", root
   cause, or limitation carried in from a prior session's summary, a handoff,
   memory, or a teammate's report feels authoritative but is second-hand — often
