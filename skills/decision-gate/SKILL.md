@@ -24,6 +24,7 @@ For any action that costs >30 minutes of work or commits to an architectural/str
 2. **Write the gate explicitly:**
    - **Gate criterion** (numeric or boolean): what outcome would make us proceed with the big version? Be specific — "within seed noise" or "≥0.85 accuracy" or "no NaN in 1000 steps."
    - **Cheapest gating experiment**: the smallest measurement that tells us if the criterion is met. Target: <30 min wall-clock or <100 lines of code or 1 seed × small N.
+   - **For optimization work, gate on the size of the prize, not just feasibility.** Before building a speedup, measure the ceiling on what it could save — and measure it *per candidate design*, since designs that look interchangeable can differ several-fold in payoff. If the saving depends on a stochastic or per-epoch selection, sample several draws: a single draw can make a variant-specific ceiling look general.
    - **Fallback plan if the gate fails**: what's the next-cheapest move? Often it's "keep the current path and document the deviation."
    - **Borderline rule + sentinel**: how to read a result near the criterion (an explicit noise margin or tie-break, so the read is robust to noise but still catches the signal), and which sentinel metric(s) the *next* checkpoint read should prioritize — usually the largest relative mover on the cost side.
    - **Executability**: every criterion names a metric that is *already emitted* AND whose producing job is *actually scheduled* — a gate whose deciding number nothing writes is fiction, and it invites metric-shopping at readout. Drop any condition whose every outcome leads to the same action.
@@ -37,7 +38,8 @@ For any action that costs >30 minutes of work or commits to an architectural/str
 4. **Run the gating experiment first.** Do not start the big action.
 
 5. **After the gate fires:**
-   - **Pass** → proceed with the big action.
+   - **Pass** → proceed with the big action. But a pass licenses only what it asserted. Before reusing the *same configuration* at larger scale, read the metrics the gate did **not** assert on — cost, throughput, utilization, wall-clock, memory. A correctness gate certifies correctness, not fitness-for-scale, and the disqualifying number is often already sitting in the passing run's telemetry.
+   - **Pass with a suspiciously conservative setting** → treat it as a possible fossilized workaround. A value that disables prefetch, concurrency, caching, or batching may exist because an unresolved failure once made it necessary, with the reason recorded nowhere. Find out what breaks when you raise it *before* scaling; that failure is a latent defect, not a preference.
    - **Fail** → execute the fallback. Do not retry the big version without re-gating.
    - **Ambiguous** → narrow the gate or run one more cheap experiment. Do not proceed on hope.
 

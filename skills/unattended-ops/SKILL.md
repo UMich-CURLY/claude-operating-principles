@@ -115,7 +115,9 @@ GPU-hours.
 - **Verify an expensive async job's resolved config in its first minutes**, not at
   readout — the cost of a silent config miss grows with every hour it runs. Pair
   with a pre-dispatch guard that refuses to fire against a stale artifact, and
-  watch the guard *refuse* once before opening it.
+  watch the guard *refuse* once before opening it. A fix does not reach work already in
+  flight: a queued job's code is frozen at dispatch, so when a defect is fixed, list every
+  queued, running and scheduled job built before the fix and cancel or re-dispatch it.
 - **A composition is verified member by member, and a member contributing nothing fails
   the run before it starts.** "Unchanged input" is not "unchanged behavior" when the reader's
   parameters moved; an input a program accepts but does not consume must fail loudly; a
