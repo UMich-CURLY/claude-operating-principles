@@ -83,7 +83,9 @@ Nothing inside an evaluation loop may depend on the thing being measured:
 - **Intervening layers ship with counters.** Any assistive layer between the policy and
   the metric (a safety clamp, fallback selector, retry wrapper) absorbs the signal being
   measured unless its intervention rate is logged and read before crediting the system
-  it wraps.
+  it wraps. A layer the shipped artifact does not contain is switched off in the gate, or
+  the gate reports its result both with and without it: every ship read once ran a
+  simulator-only plan filter the delivered model lacked.
 
 ## State goals as inputs, not tuned knobs
 
