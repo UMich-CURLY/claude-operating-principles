@@ -81,7 +81,8 @@ GPU-hours.
 - **Anything leased must outlive the job that depends on it — and the lease is read from
   the resource, not inferred from failures.** Credentials, compute instances, locks,
   reservations, certificates, sessions: before launch, read the remaining life from the
-  resource's own state and refuse if it does not cover provisioning plus the run. A lease
+  resource's own state and refuse if it does not cover provisioning plus the run, and
+  that the resource is free, not merely owned. A lease
   that expires mid-job surfaces downstream as unrelated-looking errors, the most expensive
   place to learn it. *(Receipt: a one-hour default lease under two-hour runs put a phantom
   "2 errored" into every published number for a day.)* For credentials specifically: stamp
@@ -112,8 +113,10 @@ GPU-hours.
   with a timestamp; a monitor whose healthy output is *nothing* cannot be told
   apart from a dead one. Auth used by long-lived monitors expires — a poller that
   starts returning empty after hours may be unauthenticated, not idle.
-- **Verify an expensive async job's resolved config in its first minutes**, not at
-  readout — the cost of a silent config miss grows with every hour it runs. Pair
+- **Verify an expensive async job's resolved config and its health counters (skipped
+  or non-finite steps, step rate) in its first minutes**, not at readout — the cost of a
+  silent config miss grows with every hour it runs — and arm nothing on the run's result
+  before that check. Pair
   with a pre-dispatch guard that refuses to fire against a stale artifact, and
   watch the guard *refuse* once before opening it. A fix does not reach work already in
   flight: a queued job's code is frozen at dispatch, so when a defect is fixed, list every

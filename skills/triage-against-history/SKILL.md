@@ -97,6 +97,10 @@ failure lives in the *target* or only in the *harness* before any destructive ac
   static view that skips a runtime merge will lie. (Here: a plain `compose()` showed
   clean readers; the trainer's `IS_LOCAL_ENV`-only `merge(cfg, cfg.local_override)`
   clobbered them — only reproducing that merge revealed it.)
+- **A symptom matches a known failure only if it fired where that failure fires.** Read
+  the stage the job reached before naming the cause; the same "no progress" from a job
+  that never started its main loop is a different defect. *(Receipt: a 76-minute stall
+  blamed on a dataset build never reached the dataset build.)*
 - **A harness-only RED is not grounds to kill the real target.** Fix the harness so it
   faithfully exercises the target, then re-gate — don't cancel a production run the
   failure never applied to.

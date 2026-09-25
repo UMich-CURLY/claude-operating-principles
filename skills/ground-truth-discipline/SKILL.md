@@ -66,7 +66,8 @@ checked against ground truth.
 - **Verify guards with a positive case.** For any detector, alarm, validator, or
   test of an error path (secret scanners, CI gates, monitoring, assertions), a
   *passing negative* (clean tree → exit 0) is NOT evidence it works — only that
-  it didn't fire. Inject a known-bad input and confirm it fires, and check that
+  it didn't fire. Inject a known-bad input and confirm it fires (for a router or a
+  config switch: that the case takes the other branch), and check that
   the injected input actually matches what you intend to catch (a too-weak
   sample fakes a pass). A net you've only seen succeed is untested. This covers
   any instrument you wrote, not just alarms: a search, filter, or parser that
@@ -75,6 +76,17 @@ checked against ground truth.
   no-op flag is such a guard: prove it by diffing the live targets afterwards (git
   log, queue, stamps) — a sourced library reset the flag and the "dry" run
   committed twice.
+- **Input parity across environments.** Every input a model consumes must mean the
+  same thing, from the same source, in training, evaluation and deployment; audit
+  that before any loss or target work. A mismatch there presents as a modeling
+  problem, and no amount of training fixes it. *(Receipt: a decoder seed 0.15 s stale
+  and a future-looking speed input cost sixteen training rounds.)*
+- **A deliverable is verified as delivered.** Before it leaves: run the checks on the
+  exact delivered files, with every input engaged rather than at its neutral value,
+  and diff the artifact against the last one delivered (layout, interface, fused
+  components, naming). Its README describes only what the artifact contains.
+  *(Receipt: a README's parity claim came from a different graph, and its "trained
+  on X" from a config section the cloud never read.)*
 - **Works-by-hand-but-fails-under-automation is a context bug.** When an
   automated process (daemon, hook, CI job, cron, subprocess) fails at something
   you can do manually, the discriminating measurement is to reproduce the exact

@@ -43,9 +43,9 @@ Auto-applied every session via `memory/principles_occam_operations.md`.
 
 ## Skills
 
-On-demand workflows that activate the principles when the work matches. Two are
-abstract **principle** skills (the *why*); the other four are **operational**
-workflows (the *how*) that defer to the principles.
+On-demand workflows that activate the principles when the work matches. The
+**principle** skills carry the *why*; the **operational** skills carry the *how*
+and defer to the principles.
 
 | Skill | Kind | Use when | Does |
 |-------|------|----------|------|
@@ -55,6 +55,9 @@ workflows (the *how*) that defer to the principles.
 | **decision-under-irreversibility** | operational | an action is costly or impossible to undo (migrations, DROP/DELETE, irreversible deploys, sending comms, publishing); autonomy/safety gating | Assess reversibility of the action *and* inaction; route on a 2×2; climb a ladder — buy reversibility, defer the irreversible kernel, stage with a principled stopping rule, else minimize worst-case. |
 | **pin-and-trace** | operational | writing values, claims, or decisions into durable artifacts | Single-source-of-truth rule: one canonical home, everything else references it. |
 | **triage-against-history** | operational | responding to reviews, bug reports, PR comments | Triage each item against persistent records before editing — classify as already-addressed / prose-stale / genuinely-new. |
+| **unattended-ops** | operational | writing any waiter, poller, watcher, chained pipeline or overnight automation | Make unattended failures loud or impossible: owned tokens not process text, both branches of every wait tested, one scheduler per serial resource, config and health checked in the first minutes. |
+| **operating-modes** | operational | running a long loop with a human principal | Standing defaults: status as rates and ETAs, preflight stamp before any launch, explicit resource holds, act-and-report versus ask-once, credentials in every status. |
+| **enforcement-discipline** | operational | standing up or auditing a long-running loop; after a "what ran was not what we thought ran" incident; before delegating operations to agents | Put each rule where it can refuse: the contract in the entry point, one launcher per action, guards seen refusing, provenance on every artifact, the expectation written before the run, a fixed first check, agents build and never operate. |
 
 ## Install
 

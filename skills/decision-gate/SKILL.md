@@ -7,7 +7,7 @@ description: Before any non-trivial change (architectural flip, large rewrite, e
 
 > **Relationship to the principle skills.** This is the concrete *workflow* for gating costly/structural work. The principles beneath it live elsewhere: `diagnostic-discipline` (how cheap the gating test should be, how much certainty to buy, and "don't let one setting settle a structural decision" — the cheapest-falsifier-first + certainty-allocation law) and `decision-under-irreversibility` (used when the gated action is hard to undo). Use those two for the *why*; use this for the *how*.
 
-For any action that costs >30 minutes of work or commits to an architectural/structural choice, **do not execute immediately**. First write down the decision gate.
+For any action that costs >30 minutes of work, commits to an architectural/structural choice, or whose result decides the next action (however cheap the read), **do not execute immediately**. First write down the decision gate.
 
 ## When to invoke
 
@@ -83,7 +83,8 @@ Nothing inside an evaluation loop may depend on the thing being measured:
 - **Intervening layers ship with counters.** Any assistive layer between the policy and
   the metric (a safety clamp, fallback selector, retry wrapper) absorbs the signal being
   measured unless its intervention rate is logged and read before crediting the system
-  it wraps. A layer the shipped artifact does not contain is switched off in the gate, or
+  it wraps. A layer the shipped artifact does not contain is switched off in the gate and
+  in any data you record, or
   the gate reports its result both with and without it: every ship read once ran a
   simulator-only plan filter the delivered model lacked.
 
