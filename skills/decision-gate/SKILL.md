@@ -73,7 +73,9 @@ Nothing inside an evaluation loop may depend on the thing being measured:
   system's own output (tuning a filter to reproduce labels that filter produced), and
   never let a convergence procedure iterate against a fixed benchmark without a refresh
   or holdout plan — a rigorous loop overfits an endogenous anchor *faster* than trial
-  and error, not slower.
+  and error, not slower. *(Receipt: every DAgger round recorded seeds 0..N−1 through a
+  `--repeats N` default while the gate read seeds 0–2, so the gate was never a holdout; recording
+  seeds now rotate by round, disjoint from the gate's.)*
 - **Denominators must be outcome-independent.** Normalizing by a quantity the treatment
   changes (per-km rates when success ends episodes early) can invert a conclusion; a
   rate can also be won by refusing to act (near-zero exposure scores safe on every
