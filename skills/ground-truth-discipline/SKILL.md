@@ -72,7 +72,11 @@ checked against ground truth.
   sample fakes a pass). A net you've only seen succeed is untested. This covers
   any instrument you wrote, not just alarms: a search, filter, or parser that
   returns nothing needs a positive control — find something you know exists —
-  because an empty result and a broken query are indistinguishable. A dry-run or
+  because an empty result and a broken query are indistinguishable. An evaluation
+  harness's positive control is a known-good case driven into the success state
+  through the same path the candidates take; a fixture that skips the path fakes the
+  control. *(Receipt: a vehicle model held a scripted standstill but diverged when the
+  car slowed to rest in closed loop, so a stop could only read as a failure.)* A dry-run or
   no-op flag is such a guard: prove it by diffing the live targets afterwards (git
   log, queue, stamps) — a sourced library reset the flag and the "dry" run
   committed twice.

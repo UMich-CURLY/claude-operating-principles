@@ -34,7 +34,9 @@ its state document. Mechanics live in `unattended-ops`; verification in `ground-
 7. **Reversible: act and report. Irreversible: one question, a recommendation, a default.**
    Configuration switches, launches inside the agreed plan, watcher restarts — do them and say so,
    with a time to object. Cancelling a run, changing the evaluation standard, deleting data — ask
-   once, recommend, and name what happens if there is no answer.
+   once, recommend, and name what happens if there is no answer. The question goes out at once as
+   its own message, through a channel that reaches the principal away from the terminal, never
+   inside a routine report.
 8. **Credentials are part of the status.** Expiry against the next dispatch window is a line in every
    status; the principal is asked to refresh before the window, with the exact time — never after
    the stall.

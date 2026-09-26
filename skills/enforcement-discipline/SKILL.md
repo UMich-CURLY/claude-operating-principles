@@ -25,6 +25,10 @@ discipline, the assistant's included, is load-bearing.
   command from a person or an agent hits the same refusal as the launcher. A rule that exists only
   in a script's grep, a checklist or a memory is a hope. *(Receipt: three shell guards accepted
   `--flag=value` and abbreviated flags; the entry point behind them accepted everything.)*
+  Each refusal is classed when it is written: an integrity failure halts; any other names its
+  default path (proceed with what is valid, stamp what was left out, report after), so a rule the
+  principal never set cannot idle a stage. *(Receipt: a labeling refusal on two voided groups, the
+  assistant's own rule, held a fine-tune about 4 h.)*
 - **One entry point per action.** Read, record, dispatch, deliver: one script each, and nothing
   else launches, not cron, not an armer, not a session. The script embeds the contract, and the code
   beneath it refuses anyway (defense in depth, because the script is the layer people edit).
@@ -50,9 +54,11 @@ discipline, the assistant's included, is load-bearing.
   their steps read as healthy for an hour because the watcher checked only that steps advanced.)*
 - **Agents build; they do not operate.** An agent never launches, cancels, commits, pushes or
   writes to a shared store; it produces files under a scratch directory, with the forbidden list in
-  its brief. Each output is verified by a check that fails without it before it is applied. An
-  agent that needs an approval-gated command to finish hangs instead; write the brief so it never
-  needs one.
+  its brief. Each output is verified by a check that fails without it before it is applied. The
+  apply step is conditional on that check's exit status in the same command; a result printed and
+  not consumed gates nothing. *(Receipt: a helper's failing test scrolled past while the install
+  ran anyway.)* An agent that needs an approval-gated command to finish hangs instead; write the
+  brief so it never needs one.
 - **The surface is small and visible.** One status command lists every running watcher, armer and
   loop with its arguments and the version of the file it executes; one queue writer under a lock;
   a watcher is restarted whenever its file changes (a shell keeps executing the old text); cron is

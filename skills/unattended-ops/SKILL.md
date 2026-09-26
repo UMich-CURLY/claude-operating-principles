@@ -112,7 +112,11 @@ GPU-hours.
 - **Silence must be distinguishable from failure.** Every waiter logs a heartbeat
   with a timestamp; a monitor whose healthy output is *nothing* cannot be told
   apart from a dead one. Auth used by long-lived monitors expires — a poller that
-  starts returning empty after hours may be unauthenticated, not idle.
+  starts returning empty after hours may be unauthenticated, not idle. The heartbeat
+  needs a reader that runs without the session: a sentinel on the machine restarts a
+  dead waiter once and pings on its second death. An assistant's session is not a
+  watcher; it runs only during turns. *(Receipt: a chain died on an unbound variable
+  after its first step; the resource idled 8 h overnight.)*
 - **Verify an expensive async job's resolved config and its health counters (skipped
   or non-finite steps, step rate) in its first minutes**, not at readout — the cost of a
   silent config miss grows with every hour it runs — and arm nothing on the run's result
