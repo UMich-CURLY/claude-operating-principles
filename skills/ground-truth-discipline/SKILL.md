@@ -85,6 +85,13 @@ checked against ground truth.
   that before any loss or target work. A mismatch there presents as a modeling
   problem, and no amount of training fixes it. *(Receipt: a decoder seed 0.15 s stale
   and a future-looking speed input cost sixteen training rounds.)*
+- **A label must depend on what it is meant to teach.** For each target quantity, name its
+  source: derived from the expert, or copied from the learner's own rollout. A copied quantity
+  turns the learner's error into its target. A conditioning input varied while the label stays
+  fixed teaches the model to ignore that input. *(Receipt: 2026-09-26, every free-road label in 28
+  DAgger shards held the recorded speed, the lead-following expert could never accelerate, and the
+  set-speed copies at 0.7x and 1.3x carried identical labels; the model decayed below its set speed
+  in closed loop and barely responded to it.)*
 - **A deliverable is verified as delivered.** Before it leaves: run the checks on the
   exact delivered files, with every input engaged rather than at its neutral value,
   and diff the artifact against the last one delivered (layout, interface, fused

@@ -40,7 +40,10 @@ discipline, the assistant's included, is load-bearing.
   its own stamp and its stored configuration: commit, rig or environment marker, every setting that
   changes what the model sees or how the system moves, and the data members actually consumed.
   Result tables are generated from those lines, never typed, so a table cannot say something the run
-  did not do. A result without its contract line is not quoted.
+  did not do. A result without its contract line is not quoted. A guard is keyed to what it
+  protects: the provenance check compares the content that made the artifact (the labeling code),
+  not a pointer that also moves for unrelated reasons. *(Receipt: a ledger-only commit moved HEAD
+  during a label, and the provenance check voided a good shard.)*
 - **The expectation is written before the run, in the ledger.** Purpose, the exact configuration,
   the expected number, the decision rule and the stop condition go into the state document before
   the launch (`decision-gate` supplies the form). A run without that entry is not cited afterwards;
@@ -68,7 +71,11 @@ discipline, the assistant's included, is load-bearing.
 - **Two independent routes before anything crosses the team boundary.** A bundle: the harness on
   the delivered files, with every input engaged, plus a diff against the last delivery. A number:
   the stamp plus the tracker's record. A document: generated from the artifact's manifest, then read
-  by the principal. One route is a claim; two are a receipt.
+  by the principal. One route is a claim; two are a receipt. A defect claim against another team's
+  code: the recorded failure reproduced exactly from the recorded inputs, and one counterfactual
+  that removes it without merely silencing the check. *(Receipt: a replay reproduced a vehicle
+  model's divergence to the tick and value; a steering limit removed it, while a finer integration
+  step only hid the assert.)*
 - **Sessions have bookends.** Start: merge the canonical branch, run the status command, read the
   ledger's resume section. End, and at every re-plan: a cold-restart card in the ledger that a fresh
   session, on any machine or account, can act on without this session's context. The enforcement
