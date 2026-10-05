@@ -44,6 +44,9 @@ discipline, the assistant's included, is load-bearing.
   protects: the provenance check compares the content that made the artifact (the labeling code),
   not a pointer that also moves for unrelated reasons. *(Receipt: a ledger-only commit moved HEAD
   during a label, and the provenance check voided a good shard.)*
+  The same key binds deferred and named things: a waiter executes only the content it
+  verified and refuses if its pointer moved, and an artifact a configuration names is
+  write-once (conditional write, content-hash check; a rebuild takes a new name).
 - **The expectation is written before the run, in the ledger.** Purpose, the exact configuration,
   the expected number, the decision rule and the stop condition go into the state document before
   the launch (`decision-gate` supplies the form). A run without that entry is not cited afterwards;

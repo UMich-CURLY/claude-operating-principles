@@ -114,9 +114,11 @@ GPU-hours.
   apart from a dead one. Auth used by long-lived monitors expires — a poller that
   starts returning empty after hours may be unauthenticated, not idle. The heartbeat
   needs a reader that runs without the session: a sentinel on the machine restarts a
-  dead waiter once and pings on its second death. An assistant's session is not a
-  watcher; it runs only during turns. *(Receipt: a chain died on an unbound variable
-  after its first step; the resource idled 8 h overnight.)*
+  dead waiter once and pings on its second death. An assistant's session is neither a
+  watcher nor a scheduler; it runs only during turns, so capacity that can free while it
+  is out gets a verified default job armed on the machine. *(Receipts: a chain died on an
+  unbound variable after its first step; the resource idled 8 h overnight. Two reserved
+  nodes freed during a session outage and idled ~2 h.)*
 - **Verify an expensive async job's resolved config and its health counters (skipped
   or non-finite steps, step rate) in its first minutes**, not at readout — the cost of a
   silent config miss grows with every hour it runs — and arm nothing on the run's result

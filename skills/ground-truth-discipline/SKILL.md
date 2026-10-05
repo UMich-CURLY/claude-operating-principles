@@ -122,7 +122,10 @@ checked against ground truth.
   anchor term needs the same audit, because it must contain the behaviours you are
   afraid of losing (eleven fine-tune arms trained on a corpus with 0% turns and 0%
   other agents, because a deny-list added to exclude one map removed every scene
-  containing traffic). A teacher's identity is its own score on your endpoint:
+  containing traffic). A label assembled from several sources (speed from one solver,
+  steering from another) is a target neither source contains: check its feasibility and
+  fidelity as composed (a steering bridge recombined with the label's speed taught a path
+  0.08-0.33 m (p90) off the expert's). A teacher's identity is its own score on your endpoint:
   imitation cannot push a student below the variability of what it imitates, so
   decompose the gap into the part already at parity with the source and the part that
   is not — only the second is reachable by more data. One afternoon of measurement
@@ -142,6 +145,13 @@ checked against ground truth.
   flatters you: a reading that violates an invariant something *enforces by
   construction* is evidence about the reader. Read thresholds from the artifact — a
   hardcoded bound stops measuring what it names once the system is reconfigured.
+- **Grade with the grader's own operator.** A pass or fail you report or predict comes
+  from the grader's code, window, aggregation, quantile and thresholds. An in-house metric
+  set on the grader's scenarios can pass what the grader fails, and a proxy built from
+  per-sample statistics can rank candidates backwards; calibrate any proxy on measured
+  verdicts (leave-one-out error) before it ranks anything. *(Receipts: our reads of the
+  team's 14 scenarios never computed their per-tick verdicts; per-step p99.5 of training
+  targets ranked three models backwards against the gate's 0.5 s boxcar.)*
 - **Inspect at the producing layer; completion signals lie.** Answer "what does X
   contain / expose / do" from the artifact at its own layer: the producer that
   writes a structure, never its consumers (a consumer-side grep is a lower bound
@@ -183,7 +193,10 @@ checked against ground truth.
   not the sample count the tool prints — and compute the spread over that unit,
   reported beside the value. Pooling correlated samples inflates n and manufactures
   significance; a difference smaller than the spread is not a finding, and filing it
-  as one buys a later retraction. Where a pooled and a per-unit computation disagree,
+  as one buys a later retraction. When a noise source outside the arms can set the metric
+  (simulator jitter, data order, a seed), compare the arms on the same realization of it:
+  one unpaired seed showed a steering change as a yaw-acceleration regression, while
+  seed-matched pairs showed it better in 9 of 9. Where a pooled and a per-unit computation disagree,
   the per-unit one governs and the disagreement is itself the result. This constrains
   *conclusions*, not exploration: a cheap single-replicate probe remains a legitimate
   way to form a hypothesis or overturn a clearly-wrong prior claim. **Selection is the

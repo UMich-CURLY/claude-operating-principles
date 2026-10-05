@@ -34,6 +34,13 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   null response across a lever's range means it is disconnected from the outcome; stop
   turning it and look for the connected one. *(Receipt: braking bounds of -8 and -12 read
   the same; the decoder seed, not the bound, was the lever.)*
+- **Find a recurring failure's trigger by its tightest band.** With no in-code cause,
+  tabulate every candidate clock at each failure (wall time, age, steps, requests, bytes
+  served, load). The trigger is the one whose values collapse into the narrowest band,
+  with no failures below it. A cohort started together crosses that band together, so its
+  failures cluster in time and attach to whatever changed that hour. *(Receipt: simulator
+  errors blamed on a scheduler change all fell at 346-382 GB served since restart, a 2.6%
+  spread against 18-36% in age, none in 241 h below the band.)*
 - **For ablations and A/Bs:** change one mechanism at a time, or use a design that makes effects separable, so a measured difference attributes to a single cause. An ablation that moves three things at once produces information you cannot assign.
 - **A fixture you authored tests the code against your model, not against the world.**
   Synthetic inputs are built from the same understanding as the code they exercise, so
