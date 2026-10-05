@@ -89,6 +89,12 @@ Nothing inside an evaluation loop may depend on the thing being measured:
   in any data you record, or
   the gate reports its result both with and without it: every ship read once ran a
   simulator-only plan filter the delivered model lacked.
+- **A fallback is a counter, not a fix.** When a downstream stage fails on what an
+  upstream stage handed it (a steering QP infeasible on the speed profile it was given),
+  the defect sits at the interface: carry the downstream feasibility condition upstream
+  as a constraint, so every upstream output can be followed by construction. Writing the
+  failed cases off to a fallback keeps the defect and moves it into the data,
+  concentrated exactly where the stage fails.
 
 ## State goals as inputs, not tuned knobs
 
