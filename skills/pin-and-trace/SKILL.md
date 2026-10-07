@@ -72,8 +72,8 @@ When asked to "verify the paper" or "check the numbers" or after re-running expe
 
 When several values are compared side by side (a table, a benchmark, an A/B
 result, a before/after), every cell must come from **one coherent run / source**
-under the same protocol — never spliced across runs, configs, seeds, or
-hardware. Mixing sources silently produces contradictions (e.g. a prose summary
+under the same protocol — never spliced across runs, configs, seeds, code or
+simulator versions, or hardware. Mixing sources silently produces contradictions (e.g. a prose summary
 citing one run while the table cites another).
 
 - Refresh comparison cells **together**, from a single regeneration, even the

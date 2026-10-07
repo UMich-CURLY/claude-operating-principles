@@ -78,6 +78,11 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   not the dose.** A confirmed proximal effect with a null distal effect falsifies the
   assumed link between them; re-dosing the same mechanism buys nothing. Two failed
   same-level fixes to one recurring symptom are the signal to change mechanism.
+- **Scope a repair to the defect's whole class.** When a fix lands on some members of a
+  family, list every sibling it does not reach and why each is exempt, before calling the
+  family fixed. *(Receipt: a constrained solver repaired three of four supervised frames;
+  the fourth, the one the car executes, kept an unconstrained target over the limit on 87%
+  of rows while the report called the whole set constrained.)*
 - **There is a severity floor.** A hypothesis that assumes almost nothing also predicts almost nothing and cannot be tested sharply. Strip uncertain auxiliaries for attributability, but keep enough structure that the test would very probably have *caught* the hypothesis if it were false. Under-assuming is as much a failure as over-assuming; minimality is in service of a severe, attributable test, not an end in itself.
 
 For uncertain assumptions you cannot remove, the Bayesian move beats hand-minimization: make them explicit and **marginalize** over them. Model comparison's Occam factor then penalizes unnecessary complexity automatically — you get parsimony by integration instead of imposing it by fiat, and more safely.

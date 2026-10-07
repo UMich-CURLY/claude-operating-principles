@@ -56,6 +56,12 @@ GPU-hours.
   decision, and make every yield an entry in that order. *(Receipt: a lower-priority job
   with a 180 s settle beat a higher-priority one with a 330 s window after it had waited
   four hours.)*
+- **Size an unattended job against the limit that binds and everything armed beside it.**
+  The binding limit is the enforced quota (a per-user or per-group cap), not the machine's
+  visible total, and the load is everything else armed on the machine, not an idle box.
+  *(Receipts: the same relabel shards were killed for memory twice, once at a 184 GiB
+  group quota while the machine showed 499 GB free; two builds each sized for an idle box
+  overlapped.)*
 - **HARD RULE — quiesce file-sync around VCS writes; diffstat before every push.**
   A sync daemon that mirrors `.git` can deliver a stale index, and a "one-file"
   commit then silently snapshots an entire stale tree. Pause the sync for the
@@ -109,6 +115,9 @@ GPU-hours.
   cannot see a job that is queued and not yet running; the scheduler is the only
   witness to admission. Watch the submitter for admission and the logger for
   progress — inferring one from the other turns a queue into a phantom failure.
+- **Switching off a default downstream step arms its replacement in the same action**,
+  confirmed alive. *(Receipt: two training dispatches suppressed their default
+  evaluation follower with nothing replacing it.)*
 - **Silence must be distinguishable from failure.** Every waiter logs a heartbeat
   with a timestamp; a monitor whose healthy output is *nothing* cannot be told
   apart from a dead one. Auth used by long-lived monitors expires — a poller that

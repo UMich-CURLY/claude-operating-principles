@@ -149,9 +149,15 @@ checked against ground truth.
   from the grader's code, window, aggregation, quantile and thresholds. An in-house metric
   set on the grader's scenarios can pass what the grader fails, and a proxy built from
   per-sample statistics can rank candidates backwards; calibrate any proxy on measured
-  verdicts (leave-one-out error) before it ranks anything. *(Receipts: our reads of the
+  verdicts (leave-one-out error) before it ranks anything. Before a requirement becomes a
+  hard bound or a pass/fail check, trace it to its source and status and check that it can
+  be met together with the other hard bounds; an in-house rule, or a source line still
+  marked TBD or disputed, enters as a soft preference. *(Receipts: our reads of the
   team's 14 scenarios never computed their per-tick verdicts; per-step p99.5 of training
-  targets ranked three models backwards against the gate's 0.5 s boxcar.)*
+  targets ranked three models backwards against the gate's 0.5 s boxcar; an in-house
+  reach-time rule, unmeetable under a disputed jerk line that had been made a hard label
+  bound, nearly raised the label's acceleration, and the student trained under that bound
+  took 15 s for 8 to 15 m/s.)*
 - **Inspect at the producing layer; completion signals lie.** Answer "what does X
   contain / expose / do" from the artifact at its own layer: the producer that
   writes a structure, never its consumers (a consumer-side grep is a lower bound
