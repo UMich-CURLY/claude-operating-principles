@@ -108,6 +108,12 @@ GPU-hours.
   token, and persisting the smallest sufficient artifact (a 513-parameter delta
   over frozen pinned weights reconstructs the model; the gigabyte checkpoint buys
   nothing). "The platform stores it" and "I can retrieve it" are different claims.
+- **Keep dependencies alive, and read state only from live sources.** Renew leased resources
+  (instances, credentials, reservations) before they expire. A status read with expired
+  credentials is unknown, not a state. Moving a path or dropping a stage is an interface change,
+  so dry-run the whole pipeline through its last stage. A hold blocks new work but still records
+  work that finishes. Retry a transient server error a bounded number of times, each time only
+  after confirming the failed attempt created nothing.
 
 ## Monitoring
 

@@ -129,6 +129,19 @@ you may be overfitting the decision to one case.
   second setting. When the two pull hard in opposite directions, surface the
   trade-off explicitly rather than silently picking one.
 
+## Near a deadline, and decisions that run unattended
+
+- **Freeze the production pipeline near a hard deadline.** Nothing deliverable is deferred
+  past the deadline. Changes wait for the owner's go, except restoring an approved state that
+  automation dropped on a false alarm, which happens at once and is reported. The pipeline
+  keeps the resources it has been shown to run on; other work never uses them, and automation
+  never reroutes work on an unverified assumption about capacity.
+- **Record each decision with its premise and its end.** Propose the simplest plan that meets
+  the must-have goal within the standing rules first. Record every approved decision or
+  exception with the premise it rests on and the condition that ends it. Automation reverts
+  when the end condition is met; a broken premise goes back to the owner. A run that is
+  evidence for a committed decision is never cut for throughput.
+
 ## When to override
 
 If the user explicitly asks for the big action without a gate, document the gate they're choosing to skip in one sentence and proceed. This is honest and avoids re-litigating.

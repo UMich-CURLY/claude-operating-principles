@@ -97,7 +97,10 @@ checked against ground truth.
   and diff the artifact against the last one delivered (layout, interface, fused
   components, naming). Its README describes only what the artifact contains.
   *(Receipt: a README's parity claim came from a different graph, and its "trained
-  on X" from a config section the cloud never read.)*
+  on X" from a config section the cloud never read.)* Generate a deliverable from its
+  data and check it whole: every number in the prose comes from the same source as the
+  tables, and before publishing every referenced file exists, every cited commit is on a
+  shared remote, and every empty or different-basis element says why, beside it.
 - **Works-by-hand-but-fails-under-automation is a context bug.** When an
   automated process (daemon, hook, CI job, cron, subprocess) fails at something
   you can do manually, the discriminating measurement is to reproduce the exact
@@ -359,6 +362,16 @@ private copy diverges and later cannot merge. (Here: the labeler's comfort audit
 internal speed profile while the closed-loop metric differentiated executed positions; neither
 number meant what the other did, and the vehicle debrief showed a 0.5 s smoothing window alone
 flipped a pass/fail verdict.)
+
+**Compare like with like.** Any comparison or check holds everything fixed except the variable
+under test: same instrument, same inputs, same settings. (a) A check on a randomized quantity
+compares each sample with its expected value for that sample's own random draw. (b) Changing a
+default needs an A/B that differs only in that default, with at least as much evidence as the
+default had. (c) A borrowed component runs with its documented defaults unless its owner approves
+a change. (d) Every difference that remains is listed in the result. (e) Each claim's caveat
+matches that claim's own evidence. *(Receipts: a lag check passed two rounds and failed a third
+only because of which random scales were drawn; a pretrained model ran on another model's
+sampler for nine days without anyone noticing.)*
 
 ## When to invoke
 
