@@ -135,6 +135,10 @@ overwrite) — resolve what it points at.
 - **A standing "don't <X>" overrides your in-flight plan.** If the user says
   "don't cancel" while you're mid-cancel, stop — even if your read of an earlier
   message seemed to justify it.
+- **Resolve a role to its entity from the record.** When a request names a thing
+  by its role ("the last shipped model", "the one on the car"), look it up in the
+  ship log or ledger, then state the exact entity and its id before acting. When
+  two roles could point at different entities, name both.
 - Failure mode this prevents: reading "0.3.1 (a feature branch) isn't reviewed"
   as "*our working branch* isn't reviewed" and cancelling two wanted runs that
   "don't cancel" had just protected — then having to re-dispatch.
