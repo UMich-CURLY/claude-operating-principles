@@ -53,9 +53,12 @@ GPU-hours.
   resource, priority is a property of one ordering, not of the waiters: independent
   waiters race, and whichever polls or settles fastest wins regardless of what matters.
   Encode the order explicitly in a single queue that ranks by what unblocks the next
-  decision, and make every yield an entry in that order. *(Receipt: a lower-priority job
-  with a 180 s settle beat a higher-priority one with a 330 s window after it had waited
-  four hours.)*
+  decision, and make every yield an entry in that order. On a resource shared with others,
+  a held queue position belongs to that order: never give it up before its replacement is
+  queued, and cancel the job being replaced only after its successor is submitted.
+  *(Receipts: a lower-priority job with a 180 s settle beat a higher-priority one with a
+  330 s window after it had waited four hours; a queued job cancelled ten minutes before
+  its replacement could be submitted let another team's job take the reserved node.)*
 - **Size an unattended job against the limit that binds and everything armed beside it.**
   The binding limit is the enforced quota (a per-user or per-group cap), not the machine's
   visible total, and the load is everything else armed on the machine, not an idle box.
