@@ -80,6 +80,13 @@ checked against ground truth.
   no-op flag is such a guard: prove it by diffing the live targets afterwards (git
   log, queue, stamps) — a sourced library reset the flag and the "dry" run
   committed twice.
+- **Opt-in compatibility has three states.** A claim that an opt-in model feature is
+  backward compatible covers three cases, each checked separately: absent, present but
+  untrained, and trained then switched off. The last is learned behavior, not the old
+  model. Also confirm that the data the feature trains on can be produced from the same
+  branch; otherwise enabling it trains a no-op. *(Receipt: a speed input switched off
+  after training drove at the data's mean speed, and its training-data path was not in
+  the PR.)*
 - **Input parity across environments.** Every input a model consumes must mean the
   same thing, from the same source, in training, evaluation and deployment; audit
   that before any loss or target work. A mismatch there presents as a modeling

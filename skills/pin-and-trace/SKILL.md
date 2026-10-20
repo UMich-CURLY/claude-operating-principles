@@ -82,6 +82,11 @@ citing one run while the table cites another).
   don't present it as comparable.
 - After any re-run, grep the prose for the old comparison numbers and confirm
   they match the regenerated table.
+- Reprocessing a stored record (relabel, replay, re-score) resolves every external
+  input it depends on (map, calibration, model, config) at the version the record was
+  made with, never "newest available", and writes that version into the output's
+  manifest. *(Receipt: a labeler took the newest cached map after the environment's map
+  changed, labeling older recordings against a map they were not recorded on.)*
 
 ## Resource caps trace to a cost model — verify the model, not the knob
 
