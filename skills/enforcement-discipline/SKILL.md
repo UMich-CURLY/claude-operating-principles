@@ -46,7 +46,10 @@ discipline, the assistant's included, is load-bearing.
   during a label, and the provenance check voided a good shard.)*
   The same key binds deferred and named things: a waiter executes only the content it
   verified and refuses if its pointer moved, and an artifact a configuration names is
-  write-once (conditional write, content-hash check; a rebuild takes a new name).
+  write-once (conditional write, content-hash check; a rebuild takes a new name). A reprocess
+  of a stored record resolves each external input at the version its contract line names,
+  never the newest available. *(Receipt: a relabel read the newest cached map after the source
+  environment had changed it.)*
 - **The expectation is written before the run, in the ledger.** Purpose, the exact configuration,
   the expected number, the decision rule and the stop condition go into the state document before
   the launch (`decision-gate` supplies the form). A run without that entry is not cited afterwards;

@@ -91,7 +91,10 @@ checked against ground truth.
   fixed teaches the model to ignore that input. *(Receipt: 2026-09-26, every free-road label in 28
   DAgger shards held the recorded speed, the lead-following expert could never accelerate, and the
   set-speed copies at 0.7x and 1.3x carried identical labels; the model decayed below its set speed
-  in closed loop and barely responded to it.)*
+  in closed loop and barely responded to it.)* Test an optional input absent, present but
+  untrained, and trained then off; the off state is learned behavior, not the old path.
+  *(Receipt: an input switched off after training reproduced its data's mean, not the prior
+  model's behavior.)*
 - **A deliverable is verified as delivered.** Before it leaves: run the checks on the
   exact delivered files, with every input engaged rather than at its neutral value,
   and diff the artifact against the last one delivered (layout, interface, fused

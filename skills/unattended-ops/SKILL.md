@@ -147,6 +147,9 @@ GPU-hours.
   watch the guard *refuse* once before opening it. A fix does not reach work already in
   flight: a queued job's code is frozen at dispatch, so when a defect is fixed, list every
   queued, running and scheduled job built before the fix and cancel or re-dispatch it.
+  A dropped candidate's queued work is withdrawn the same way, in the same action as the drop.
+  *(Receipt: queued reads for a dropped candidate held the only GPU lock and delayed a release
+  candidate's reads.)*
 - **A composition is verified member by member, and a member contributing nothing fails
   the run before it starts.** "Unchanged input" is not "unchanged behavior" when the reader's
   parameters moved; an input a program accepts but does not consume must fail loudly; a
