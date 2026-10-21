@@ -60,6 +60,9 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   *Two-sided*: an intervention aimed at a rare event competes with the common one, so
   state what must improve AND what must not regress. A dose chosen to *limit damage*
   is evidence of that trade — a design fact, not a hyperparameter.
+  *Size*: estimate the expected difference against the measured noise floor before
+  spending compute; arms that differ on too few inputs cannot show an effect — enlarge the
+  difference or don't run. *(Receipt: arms differing on ~2% of draws, resized to ~12%.)*
   *Range*: the instrument too — a statistic monotone by construction cannot express
   the refuting direction, so its agreement is nearly free. `max_memory_allocated`
   with no `reset_peak_memory_stats` rises under a leak and also rises-then-plateaus

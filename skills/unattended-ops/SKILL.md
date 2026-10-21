@@ -96,7 +96,8 @@ GPU-hours.
   place to learn it. *(Receipt: a one-hour default lease under two-hour runs put a phantom
   "2 errored" into every published number for a day.)* For credentials specifically: stamp
   an auth death distinctly from a data fault — `rc=1` cannot tell them apart; check the
-  profile the *failing step* uses; and where work outlives any token, poll rather than
+  profile and client the *failing step* uses (a CLI answered from a cached role while the
+  SDK's session was dead); and where work outlives any token, poll rather than
   strand it.
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it.

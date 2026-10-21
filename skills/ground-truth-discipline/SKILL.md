@@ -87,7 +87,8 @@ checked against ground truth.
   and a future-looking speed input cost sixteen training rounds.)*
 - **A label must depend on what it is meant to teach.** For each target quantity, name its
   source: derived from the expert, or copied from the learner's own rollout. A copied quantity
-  turns the learner's error into its target. A conditioning input varied while the label stays
+  turns the learner's error, or its training noise, into its target *(receipt: dropout in a
+  frozen decoder flipped a self-assigned winner on 58% of rows)*. A conditioning input varied while the label stays
   fixed teaches the model to ignore that input. *(Receipt: 2026-09-26, every free-road label in 28
   DAgger shards held the recorded speed, the lead-following expert could never accelerate, and the
   set-speed copies at 0.7x and 1.3x carried identical labels; the model decayed below its set speed
@@ -188,7 +189,11 @@ checked against ground truth.
   reward degenerate strategies (twelve of nineteen "completed" episodes completed by
   standing still, and every clean turn scenario was clean because the car stopped
   rather than turned), so pair every completion or success metric with the activity
-  it presupposes: speed, distance, task progress. Report terminal outcomes beside any
+  it presupposes: speed, distance, task progress. An accuracy equal to the
+  majority-class share is the same degenerate pass: score a learned predictor against its
+  input-free baseline (the marginal, or the same statistic at init). *(Receipt: mode accuracy
+  0.653 vs top-mode share 0.653; the best of 15 untrained modes already beat the mean plan
+  on 94% of ticks.)* Report terminal outcomes beside any
   per-step average, because a run that ends early stops accumulating error and the
   failing arm is flattered by its own failure. Prefer the densest endpoint the
   mechanism drives — rare-event counts need sample sizes an evaluation budget rarely
@@ -287,6 +292,10 @@ summary, release note — not only where it is fully proved or defined.
 - Applies beyond papers: a README feature claim states its preconditions; an
   API "supports Y" states the Y it does *not* support; a benchmark headline
   states the protocol that makes it not a SOTA claim.
+- Moving a measured threshold to another setting applies it outside its conditions:
+  restate the mechanism it guarded and re-derive the value; the risk can flip.
+  *(Receipt: a ~24% real-data floor for sim-heavy fine-tunes became, in real-dominated
+  pre-training, a risk of diluting the sim rows.)*
 
 ## Principle 4 — Triangulate load-bearing claims (independent, redundant confirmation)
 
