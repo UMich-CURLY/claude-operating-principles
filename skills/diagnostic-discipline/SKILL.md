@@ -86,6 +86,14 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   family fixed. *(Receipt: a constrained solver repaired three of four supervised frames;
   the fourth, the one the car executes, kept an unconstrained target over the limit on 87%
   of rows while the report called the whole set constrained.)*
+- **Prove what reached the model before explaining a result.** Count the data actually
+  seen (distinct, not drawn), trace the inputs into frozen parts (frozen weights are not
+  frozen outputs), and confirm the random stream when a change claims equivalence.
+  *(Receipt: runs believed to train on thousands of hours saw ~90 h distinct.)*
+- **A root cause names the mechanism at the resolution of the fix.** Name it at file and
+  function level, quantify each candidate's share, and confirm it two ways
+  (ground-truth-discipline, Principle 4). "Training" or "the data" is a category, not a
+  cause.
 - **There is a severity floor.** A hypothesis that assumes almost nothing also predicts almost nothing and cannot be tested sharply. Strip uncertain auxiliaries for attributability, but keep enough structure that the test would very probably have *caught* the hypothesis if it were false. Under-assuming is as much a failure as over-assuming; minimality is in service of a severe, attributable test, not an end in itself.
 
 For uncertain assumptions you cannot remove, the Bayesian move beats hand-minimization: make them explicit and **marginalize** over them. Model comparison's Occam factor then penalizes unnecessary complexity automatically — you get parsimony by integration instead of imposing it by fiat, and more safely.
