@@ -76,7 +76,13 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   **artifact-selection rule is part of the design**: ":latest"/"final" is a default, not a
   decision — an unexamined selection policy can both hide better artifacts and manufacture
   false beliefs about metric relationships (finals-only comparisons made a within-run
-  monotonic correlation look like "no correlation").
+  monotonic correlation look like "no correlation"). Likewise, compare only numbers from
+  the same evaluator build: every scoring pass re-scores a fixed reference (the init)
+  beside the treatment, and a reference that differs between passes means the evaluator
+  drifted and those passes do not compare. *(Receipts: a scorer importing a synced
+  checkout moved the init from 0.932 to 0.920 overnight, and a prior-off 0.878 scored
+  before the shift against a control scored after it inflated an effect to 68%; a baseline
+  read on an older gate tree started a scenario 60 m earlier and doubled its departures.)*
 - **When the proximal metric moves and the distal one doesn't, revise the causal model —
   not the dose.** A confirmed proximal effect with a null distal effect falsifies the
   assumed link between them; re-dosing the same mechanism buys nothing. Two failed
