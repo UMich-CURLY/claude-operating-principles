@@ -311,6 +311,12 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   enumeration; a proof **and** a property-test; one reviewer's read **and** a
   cross-check by a different construction. Two routes that share the same hidden
   assumption are not independent — a slip survives both.
+- **Before proposing a PR, a revision, or a fix, an independent agent tries to refute it.** Give a fresh
+  agent the proposal and its sources; it marks every claim confirmed, wrong, overstated or unverifiable
+  against the code, the data and the deployed artifact, and says what to cut. Propose only what survives,
+  and say only what the decision needs: every unneeded sentence is one more claim that can be wrong.
+  *(Receipt: a review draft relayed a reviewer agent's mechanism unchecked — the 3.5 m lane width belongs
+  to a different, more lenient check — and an independent pass caught it before posting.)*
 - **A gate is not a decision.** In core method development, never let a single
   gate, test, or metric decide that an artifact is trustworthy: require two angles
   that could fail in different ways, and treat "the gate passed" as one input, not
