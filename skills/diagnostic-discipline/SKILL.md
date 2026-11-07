@@ -68,6 +68,13 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   with no `reset_peak_memory_stats` rises under a leak and also rises-then-plateaus
   when healthy, so "it rose" is weak and "it never fell" is nothing; confirm
   against an instrument with the opposite failure mode.
+  *Units*: count independent units, not rows; repeats a subject passes all or none of
+  together are one unit, and the decision rule names its unit before the run. *Scorer*:
+  reproduce the evaluator exactly, then report each gap beside the same gap with the
+  evaluator's known weak spots removed (edge samples, warm-up, such cells); when the
+  evaluator is corrected, re-score every standing decision it supported and report each as
+  held or flipped. *(Receipt: a 20-2 paired margin was 11-1 with two scorer weak spots
+  removed and a tie without one all-or-nothing cell; no decision flipped.)*
 - **Continuations compare only at matched progress, with an untreated control.** When a
   treatment adds training/time on top of a base artifact, either the baseline receives the
   same additional progress or the comparison is made against the base's own curve at the

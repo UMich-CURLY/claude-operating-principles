@@ -77,12 +77,14 @@ Nothing inside an evaluation loop may depend on the thing being measured:
   and error, not slower. *(Receipt: every DAgger round recorded seeds 0..N−1 through a
   `--repeats N` default while the gate read seeds 0–2, so the gate was never a holdout; recording
   seeds now rotate by round, disjoint from the gate's.)*
-- **Denominators must be outcome-independent.** Normalizing by a quantity the treatment
+- **Denominators and exclusions must be outcome-independent.** Normalizing by a quantity the treatment
   changes (per-km rates when success ends episodes early) can invert a conclusion; a
   rate can also be won by refusing to act (near-zero exposure scores safe on every
   incident rate). Check what the treatment can change before choosing the denominator;
   when two normalizations disagree, that disagreement is a finding to report, not a
-  choice to make silently.
+  choice to make silently. An exclusion (a warm-up window, a filtered cell) is fixed by
+  something the treatment cannot touch, such as ending before the policy's first action;
+  otherwise report with and without it.
 - **Intervening layers ship with counters.** Any assistive layer between the policy and
   the metric (a safety clamp, fallback selector, retry wrapper) absorbs the signal being
   measured unless its intervention rate is logged and read before crediting the system

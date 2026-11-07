@@ -65,6 +65,11 @@ GPU-hours.
   *(Receipts: the same relabel shards were killed for memory twice, once at a 184 GiB
   group quota while the machine showed 499 GB free; two builds each sized for an idle box
   overlapped.)*
+  The limit is checked by the code that runs the job, at the moment it runs: a queued job
+  re-checks free space, quotas and every limit the far end enforces (lengths, sizes) before
+  its expensive step; a check made at queue time goes stale. *(Receipts: a build queued at
+  36 GB free started at 31 GB and ran out of disk; a 502-character run description was
+  rejected after the image was built and pushed.)*
 - **HARD RULE — quiesce file-sync around VCS writes; diffstat before every push.**
   A sync daemon that mirrors `.git` can deliver a stale index, and a "one-file"
   commit then silently snapshots an entire stale tree. Pause the sync for the
@@ -114,7 +119,8 @@ GPU-hours.
   nothing). "The platform stores it" and "I can retrieve it" are different claims.
 - **Keep dependencies alive, and read state only from live sources.** Renew leased resources
   (instances, credentials, reservations) before they expire. A status read with expired
-  credentials is unknown, not a state. Moving a path or dropping a stage is an interface change,
+  credentials is unknown, not a state: the monitor stamps it unobserved, never stalled or done
+  (receipt: two finished runs paged as stalled while the status login was expired). Moving a path or dropping a stage is an interface change,
   so dry-run the whole pipeline through its last stage. A hold blocks new work but still records
   work that finishes. Retry a transient server error a bounded number of times, each time only
   after confirming the failed attempt created nothing. Bind a choice that depends on other jobs'
