@@ -296,6 +296,11 @@ summary, release note — not only where it is fully proved or defined.
   restate the mechanism it guarded and re-derive the value; the risk can flip.
   *(Receipt: a ~24% real-data floor for sim-heavy fine-tunes became, in real-dominated
   pre-training, a risk of diluting the sim rows.)*
+- In a derivation, label each step as a definition, a result with its conditions, an
+  approximation, or a design choice. Never present a choice or an approximation as derived.
+  *(Receipt: a planner derivation called multiple-choice learning "EM", a commitment
+  constraint "exact conditioning", a mean-only approximation "IMM", and a sufficient norm
+  condition "exactly when"; an independent review caught all four.)*
 
 ## Principle 4 — Triangulate load-bearing claims (independent, redundant confirmation)
 
