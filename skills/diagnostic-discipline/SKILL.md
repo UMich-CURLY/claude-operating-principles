@@ -107,6 +107,11 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   function level, quantify each candidate's share, and confirm it two ways
   (ground-truth-discipline, Principle 4). "Training" or "the data" is a category, not a
   cause.
+- **Record a model's internal decisions next to its outcomes.** An evaluation of a model
+  with internal decisions (modes, selections, gates) logs those decisions per tick beside
+  the outcome metrics, so a failure can be attributed without another run. *(Receipt: a
+  three-mode head's car-following failures could not be tied to mode switches because the
+  reads logged only outcomes; attributing them cost one more simulator read.)*
 - **There is a severity floor.** A hypothesis that assumes almost nothing also predicts almost nothing and cannot be tested sharply. Strip uncertain auxiliaries for attributability, but keep enough structure that the test would very probably have *caught* the hypothesis if it were false. Under-assuming is as much a failure as over-assuming; minimality is in service of a severe, attributable test, not an end in itself.
 
 For uncertain assumptions you cannot remove, the Bayesian move beats hand-minimization: make them explicit and **marginalize** over them. Model comparison's Occam factor then penalizes unnecessary complexity automatically — you get parsimony by integration instead of imposing it by fiat, and more safely.
