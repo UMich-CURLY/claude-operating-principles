@@ -63,6 +63,10 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   *Size*: estimate the expected difference against the measured noise floor before
   spending compute; arms that differ on too few inputs cannot show an effect — enlarge the
   difference or don't run. *(Receipt: arms differing on ~2% of draws, resized to ~12%.)*
+  *Structure*: a method built to model a structure (modes, a cause, positives) cannot beat its
+  simpler baseline on data or evaluations that lack it; census the structure first, calibrated on
+  a case where it is known to exist. *(Receipt: four multi-mode runs were tuned before a census
+  showed near-identical situations had one future in 97% of training draws.)*
   *Range*: the instrument too — a statistic monotone by construction cannot express
   the refuting direction, so its agreement is nearly free. `max_memory_allocated`
   with no `reset_peak_memory_stats` rises under a leak and also rises-then-plateaus
