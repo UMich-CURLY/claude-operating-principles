@@ -85,6 +85,12 @@ checked against ground truth.
   that before any loss or target work. A mismatch there presents as a modeling
   problem, and no amount of training fixes it. *(Receipt: a decoder seed 0.15 s stale
   and a future-looking speed input cost sixteen training rounds.)*
+  The same holds for every transform a target or output passes through: round-trip real
+  inputs from every source through it (encode, then decode) and compare with the original.
+  Two functions can be exact inverses and both disagree with the data's convention. An
+  output means what its name says for any consumer. *(Receipt: a pose-to-control encoder,
+  the exact inverse of its decoder, returned curved paths up to 0.39 m inside; a fix tuned
+  to one source's heading convention pushed another 0.19 m outside.)*
 - **A label must depend on what it is meant to teach.** For each target quantity, name its
   source: derived from the expert, or copied from the learner's own rollout. A copied quantity
   turns the learner's error, or its training noise, into its target *(receipt: dropout in a
