@@ -130,7 +130,8 @@ you may be overfitting the decision to one case.
   enough to form a hypothesis and to *reverse a clearly-wrong prior claim*, but
   not enough to *commit a structural change* — that needs corroboration on a
   second setting. When the two pull hard in opposite directions, surface the
-  trade-off explicitly rather than silently picking one.
+  trade-off explicitly rather than silently picking one, after checking that neither side
+  is a hard constraint standing in for a measurement: catch the violation, don't block the behavior.
 
 ## Near a deadline, and decisions that run unattended
 
