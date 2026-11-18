@@ -29,7 +29,10 @@ were waiting on lost inside a status.
 
 - **Use the reader's vocabulary.** Replace internal labels (run letters, codenames, section
   numbers of a private document, log tokens) with what they stand for, and give every metric a
-  one-line legend at first use. Use the field's established name for a technique, with a checked
+  one-line legend at first use. In a table of metrics, every row also says which direction is
+  better (higher, lower, or closer to a stated target) and what a sign means. *(Receipt: a
+  two-model table of signed offsets, margins and percentages; the reader could not tell which
+  model each row favored and had to ask.)* Use the field's established name for a technique, with a checked
   reference; coin a term only when none exists, and say so. A word shown to mislead stays
   retired, even for the corrected quantity. *(Receipt: "clean 7/14" reused after "clean" was
   shown to count episodes that merely did not crash; the reader had to ask.)*
