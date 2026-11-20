@@ -1,6 +1,6 @@
 ---
 name: pr-checklist
-description: Verify a pull request against the PR bar before it is opened or marked ready — need on the real path, built from main's mechanism and names, default-off and invariant to which model ships, bite-sized, claims verified against main, checks run, lean description, Copilot-first review. Use whenever a PR is being prepared, drafted, revised or about to be opened, including PRs an agent prepares.
+description: Verify a pull request against the PR bar before it is opened or marked ready — main can't already do it, need on the real path, built from main's mechanism and names, default-off and invariant to which model ships, bite-sized, claims verified against main, checks run, lean description, Copilot-first review. Use whenever a PR is being prepared, drafted, revised or about to be opened, including PRs an agent prepares.
 ---
 
 # pr-checklist
@@ -9,8 +9,8 @@ Run every item before a PR is opened, and again before it is marked ready after 
 
 ## The checklist
 
-1. **Need on the real path.** State the measured effect on the path that matters (the vehicle, the export, a trained-model difference). Equivalence alone is not need. *(Receipt: a PR proving a switch was bit-equivalent was closed — the vehicle already ran the alternative.)* A bug with a measured consequence is need; fix it narrowly rather than disclose side effects. Name the module that consumes the measured signal in the config the PR affects. *(Receipt: a train/eval gap was measured on features the affected config's trained head never reads.)* A latency or memory need is measured on the deployment runtime and version, not an intermediate one. *(Receipt: a node costing 70 ms in ONNX Runtime cost 1 ms in the deployed TensorRT build.)*
-2. **Not already on main.** Search main for the behavior before writing the PR or any claim about main. Name the closest existing mechanism. *(Receipt: a claim that main lacked a fix; main already had it process-wide.)*
+1. **Main can't already do it.** Ask this first, before designing anything: could main's existing code do this, as is or with a small change? Search main by the behavior, not by your mechanism's name. For every main flag or option near the behavior, read each code path it touches and check that yours honors it: a flag ignored on your path is a one-line fix, not a reason for a new mechanism. Name the closest existing mechanism and why it falls short. Give one reviewer the bare need without your design and ask the same question. *(Receipt: a claim that main lacked a fix; main already had it process-wide.)* *(Receipt: an 80-line mission split and its 145-line test went through five review rounds; main's per-dataset `over_shard: false` covered it once passed through to the scene split, and the reviewer who wrote that flag caught it on first read.)*
+2. **Need on the real path.** State the measured effect on the path that matters (the vehicle, the export, a trained-model difference). Equivalence alone is not need. *(Receipt: a PR proving a switch was bit-equivalent was closed — the vehicle already ran the alternative.)* A bug with a measured consequence is need; fix it narrowly rather than disclose side effects. Name the module that consumes the measured signal in the config the PR affects. *(Receipt: a train/eval gap was measured on features the affected config's trained head never reads.)* A latency or memory need is measured on the deployment runtime and version, not an intermediate one. *(Receipt: a node costing 70 ms in ONNX Runtime cost 1 ms in the deployed TensorRT build.)*
 3. **Built from main's mechanism and names.** Extend what main has; no side paths. Reuse main's vocabulary. *(Receipt: a side-file join was rejected; the same need landed as a data column main already read.)*
 4. **Invariant to which model ships.** Mechanisms behind flags that default off; recipe values (weights, members, on/off choices) only in a final config change. With the flag off, main's path is bit-identical — a test proves it.
 5. **Cut from the latest main.** 0 commits behind at open; merge main (never rebase or force-push) when it moves. After a merge, search for silent breaks the merge didn't flag (APIs main changed, e.g. a list that became a dict).
@@ -26,8 +26,8 @@ Run every item before a PR is opened, and again before it is marked ready after 
 
 ```
 PR checklist — <branch>
-1 need ............ pass — <one line>
-2 not on main ..... pass — <search done, closest mechanism>
+1 main can't ...... pass — <behavior searched, closest mechanism, why it falls short>
+2 need ............ pass — <one line>
 ...
 12 review ......... n/a until opened
 Blocking: <items to fix>
