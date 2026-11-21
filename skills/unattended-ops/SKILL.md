@@ -31,6 +31,11 @@ GPU-hours.
   a kill inside a compound command killed the command itself four times, once causing a
   2.5 h watcher outage; a tag-filtered query concluded "no run" because the tag under test
   was itself the defect.)*
+- **Stop processes only by the PIDs you recorded at launch, never by a name pattern.** A
+  pattern sent through a remote shell matches that shell's own command line and kills the
+  session mid-step, leaving half-stopped children. *(Receipt: `pgrep -f "record_round.sh A"`
+  over ssh killed its own session; the recorder's parent died, its python child kept running,
+  and a watching agent restarted the cells on top.)*
 - **Resource queries have a non-empty idle baseline.** "Wait until no CUDA
   contexts / no connections / no locks" asserts an invariant about the whole
   machine; shared machines violate it at rest (a desktop daemon holds a GPU
@@ -38,17 +43,25 @@ GPU-hours.
 - **Test both branches of every wait-predicate before trusting it.** Run the gate
   query once in the state it waits *for* and confirm it reads "open", and once in
   the busy state and confirm "closed". A predicate validated only against the
-  failure that prompted it recurs under a new false positive.
+  failure that prompted it recurs under a new false positive. A waiter reads only evidence
+  written after it started (a verdict left by an earlier attempt reads as this attempt's), and
+  probes readiness with the exact check the gated step will run (a cached CLI answer passed while
+  the step's own credential probe refused). *(Receipt: a dispatch chain stopped at once on the
+  previous attempt's refusal, and a login waiter fired on a cached CLI token while the dispatch's
+  own probe still refused.)*
 - **A stage boundary is crossed on the product, and only an integrity failure halts the
   chain.** The consumer verifies the product's sufficiency itself — counts, gates, identity
   matched by field position, a stamp dated after the consumer's own start — never the
   producer's exit status or a substring of its log. A bound that ends a run by design
   (timeout, budget, worker floor) hands the next stage a failure-shaped signal that only the
   artifact can adjudicate; and a policy threshold on a value already saved is recorded and
-  carried forward, never aborted. *(Receipts: a labeler sat on a good recording that ended on
-  its own 12 h cap; a share-tolerance abort idled a pipeline; a worker floor sized for
-  24-episode evals killed three healthy 8-episode screens after an hour each; a stale DONE
-  and a quoted token each satisfied a waiter.)*
+  carried forward, never aborted. A waiter's own bound is set from the measured duration of
+  what it waits on, plus margin, and re-set when that measurement changes. *(Receipts: a
+  labeler sat on a good recording that ended on its own 12 h cap; a share-tolerance abort
+  idled a pipeline; a worker floor sized for 24-episode evals killed three healthy 8-episode screens after an hour each; a stale DONE
+  and a quoted token each satisfied a waiter; a follow-up waiter bounded at 6 h timed out
+  under a gate already measured at 8-10 h, and the night's follow-up review did not start
+  until it was re-armed by hand.)*
 - **One serial resource, one scheduler.** When several jobs wait on the same serial
   resource, priority is a property of one ordering, not of the waiters: independent
   waiters race, and whichever polls or settles fastest wins regardless of what matters.
@@ -91,7 +104,10 @@ GPU-hours.
   ships — not only into the script currently executing (above) but into any module a
   live process imports later: worker spawns, lazy imports, re-read configs. For the
   duration of a run whose result you need, treat the tree as frozen and stage changes
-  outside it.
+  outside it. Compare against another revision in a separate worktree, never by checking its
+  files out over the working tree: files that exist only in the other revision stay behind as
+  staged additions and ride into the next commit. *(Receipt: a mypy comparison re-added three
+  files main had deleted, staged, one step before a push.)*
 - **Anything leased must outlive the job that depends on it — and the lease is read from
   the resource, not inferred from failures.** Credentials, compute instances, locks,
   reservations, certificates, sessions: before launch, read the remaining life from the
@@ -104,8 +120,23 @@ GPU-hours.
   profile and client the *failing step* uses (a CLI answered from a cached role while the
   SDK's session was dead); and where work outlives any token, poll rather than
   strand it.
+- **Cleanup runs on every exit path.** What a job creates for itself (images, temp trees,
+  locks, instances) is released by a trap on exit, not by its success branch; a failed run
+  otherwise leaves its debris for the next run to trip on. *(Receipt: a dispatch that died on
+  a dropped login left its 37 GB image behind; the retry then sat in a disk wait at 20 GB free
+  until the image was removed by hand.)*
+- **A standing job's files live somewhere durable.** Anything a recurring check or waiter
+  executes or reads (its script, its state) sits outside temp and scratch directories, which
+  get swept, and the job fails loudly when the file is missing instead of reporting old
+  output. *(Receipt: the hourly check's script vanished from the session scratchpad overnight;
+  the next run printed the previous hour's saved output until the missing file was noticed.)*
 - **Verify detached processes from a fresh connection.** A backgrounded process
-  that appears alive in the launching session may have died with it.
+  that appears alive in the launching session may have died with it. Record the pid of the
+  process that does the work, not of its launcher: `setsid cmd & echo $!` (or a `bash -c`
+  wrapper) captures a short-lived parent, so a liveness check on it reads 'dead' while the
+  work runs, or 'alive' after it died. Have the worker write its own pid, or check by its
+  stamped outcome. *(Receipt: a read probe's recorded pid was the launch shell; it read DEAD
+  while the probe had queued its reads normally.)*
 - **Incidental machinery must not be able to destroy the run's product.** A long
   unattended job exists to produce one artifact; anything optional around it —
   telemetry, a logged image, a metrics push, the choice of output location — must
@@ -125,7 +156,11 @@ GPU-hours.
   work that finishes. Retry a transient server error a bounded number of times, each time only
   after confirming the failed attempt created nothing. Bind a choice that depends on other jobs'
   outputs (which parent, which input) at the latest moment it is needed, and run every step that
-  does not depend on it before then.
+  does not depend on it before then. *Watchers die with their session*: a scheduled check that
+  lives in the assistant's session (cron, monitor) is lost when the context resets; after any
+  reset, list scheduled jobs first and re-arm every standing one before other work. *(Receipt:
+  the hourly box check silently stopped after a context reset; two finished studies and a
+  100%-full disk went unreported for hours until the owner asked.)*
 
 ## Monitoring
 

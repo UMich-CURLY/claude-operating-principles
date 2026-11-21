@@ -53,6 +53,14 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   physically. Then keep the real-data case as a regression test. "The suite is green" is a
   statement about the fixtures.
 - **Decompose aggregates before comparing or optimizing them.** An aggregate metric (a benchmark average, a headline rate) is a bundle of members; never quote it head-to-head or aim a fix at it without breaking it down by category/member first. Check for degenerate members that move all systems equally (they deflate every comparison without ranking anything) and for effects concentrated in a subset (the fix then targets that subset, not the aggregate). And when a training-side target is set, state the specific downstream observables it should move — that is what makes the later result attributable. The same holds for a **constraint set**: only some constraints are active, so measure which budgets are actually consumed before loosening "the envelope" — a set spending 97% of one budget and 50% of another is limited by the first, and raising the second is a no-op. Count **upstream supply** too: a filter returns only what entered it, so a rare case's base rate caps any threshold change, and a ceiling nothing reaches means synthesising rather than mining. A perturbation that leaves the training distribution establishes robustness to that departure, not the mechanism; ground the mechanism in-distribution and label which claim each number supports.
+- **Check that a learner reads the cause, not its correlate.** When a target should respond to
+  input X and X travels with Y in the data, measure the trained model's response to X with Y held
+  fixed (a slope against the target's own slope). A wrong-sign or flat slope means the model
+  satisfied the loss through Y (shortcut learning, Geirhos et al. 2020); the fix is in how the
+  data is generated (cover X across Y, e.g. perturbed starts on both sides), not in weights;
+  reweighting existing samples is a treatment, useful only as a diagnostic of the cause.
+  *(Receipt: a planner's curvature fell with lateral offset in its targets but rose with it in the
+  model, because nearly every off-center training start was also on a bend.)*
 - **Settle the comparison before running it.** *Headroom*: a baseline at ceiling or
   floor can only show harm — grade where it demonstrably fails. *Position*: measure
   what the baseline imitates against the same reference you grade against; it may sit
@@ -60,6 +68,11 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   *Two-sided*: an intervention aimed at a rare event competes with the common one, so
   state what must improve AND what must not regress. A dose chosen to *limit damage*
   is evidence of that trade — a design fact, not a hyperparameter.
+  *Matched reference*: the reference differs from the arm only in the tested variable; check
+  both from each run's own logged config, not the recipe name, and when a reference turns out to
+  carry an extra treatment, re-read every verdict made against it. *(Receipt: a week of arms read
+  "worse than the shipped model" tied it once both sides were compared without the shipped
+  model's hidden label offset.)*
   *Size*: estimate the expected difference against the measured noise floor before
   spending compute; arms that differ on too few inputs cannot show an effect — enlarge the
   difference or don't run. *(Receipt: arms differing on ~2% of draws, resized to ~12%.)*
@@ -102,11 +115,22 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   family, list every sibling it does not reach and why each is exempt, before calling the
   family fixed. *(Receipt: a constrained solver repaired three of four supervised frames;
   the fourth, the one the car executes, kept an unconstrained target over the limit on 87%
-  of rows while the report called the whole set constrained.)*
+  of rows while the report called the whole set constrained.)* When the error is signed by the
+  situation (outside of the bend, toward the slower side, ahead of the event), a constant
+  correction is a mask: it cancels the error where the test happens to have one sign and doubles
+  it where the sign flips. Check a fix on both signs before accepting it, at matched conditions
+  (the same place both ways), or the 'sign' is a place. *(Receipt: a constant label offset passed
+  a left-bend test cell, while the same models ran wide to the other side on right bends; a
+  loss-weighting change predicted to cure the lean passed the same cell for the same reason, which
+  only the split by bend sign showed.)*
 - **Prove what reached the model before explaining a result.** Count the data actually
   seen (distinct, not drawn), trace the inputs into frozen parts (frozen weights are not
   frozen outputs), and confirm the random stream when a change claims equivalence.
-  *(Receipt: runs believed to train on thousands of hours saw ~90 h distinct.)*
+  *(Receipt: runs believed to train on thousands of hours saw ~90 h distinct.)* That includes
+  the target: check the quantity the loss fits after every encode, decode and augmentation, not
+  the label as written; a correct label can become a biased target. *(Receipt: labels centered on
+  the lane on both bend directions decoded into targets 2-7 cm inside left bends and 10-23 cm
+  inside right bends.)*
 - **A root cause names the mechanism at the resolution of the fix.** Name it at file and
   function level, quantify each candidate's share, and confirm it two ways
   (ground-truth-discipline, Principle 4). "Training" or "the data" is a category, not a

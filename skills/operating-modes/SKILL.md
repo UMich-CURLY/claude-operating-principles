@@ -19,7 +19,11 @@ its state document. Mechanics live in `unattended-ops`; verification in `ground-
    process state ("running") is never reported as progress.
 3. **Resources for an unattended loop are held explicitly.** The floor (e.g. four instances) is
    enforced by a guard plus a hold that outlives the loop's longest quiet gap; idle-lapse rules do
-   not apply to a loop the principal is asleep behind.
+   not apply to a loop the principal is asleep behind. Size parallelism to the unit of work it
+   spreads over: workers inside one invocation can't exceed that invocation's items, so when each
+   invocation is small, run invocations concurrently under one total cap. *(Receipt: 8 workers per
+   recording cell would have idled half the PD instances, since each cell held 2-4 episodes;
+   concurrent cells capped at 8 workers filled them.)*
 4. **No launch without a preflight stamp.** Before recording, training or evaluation: resource type
    and count; the deploy or eval configuration loads the artifact with zero ignored keys; the suite
    and scenario list; every referenced artifact present on the far side (a shard is its table *and*
@@ -38,7 +42,21 @@ its state document. Mechanics live in `unattended-ops`; verification in `ground-
    its own message, through a channel that reaches the principal away from the terminal, never
    inside a routine report. A pending question never parks the parts of the item that do not
    depend on it: do those first, and the question names only what is left. *(Receipt: a ready PR
-   sat a day behind a scope question while its independent fixes went undone.)*
+   sat a day behind a scope question while its independent fixes went undone.)* Before cutting
+   scope or choosing the simpler option, restate the work's stated purpose in one line and check
+   that what remains still meets it; a cut that drops the purpose is a different decision, brought
+   to the principal as such. *(Receipt: a PR whose single purpose was all data on one node was
+   proposed 'as is' at a quarter of the data, after its memory failure was read as a reason to drop
+   the feature rather than as the thing to fix.)* While the principal is still shaping a spec in
+   quick messages, hold the launch: read back the whole spec in one message, then start the work
+   once. Each mid-build change to an unattended worker costs a stop and a relaunch. *(Receipt: the
+   same build agent was relaunched three times in an hour as the head, the base model and the
+   set-speed variants were decided one message at a time; and a loss-ablation build was relaunched
+   four times the same way a week earlier.)* When the only thing holding finished work is an
+   approval for a side step (an upload, a shared write), build the variant without the side step so
+   the main action proceeds under the authority it already has; bring the side step separately.
+   *(Receipt: a training arm built at 2 AM waited ten hours for a go on uploading 58 small files its
+   loader could have computed itself; the one-node dispatch was already pre-authorized.)*
 8. **Credentials are part of the status.** Expiry against the next dispatch window is a line in every
    status; the principal is asked to refresh before the window, with the exact time — never after
    the stall.

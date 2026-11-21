@@ -138,7 +138,11 @@ checked against ground truth.
   containing traffic). A label assembled from several sources (speed from one solver,
   steering from another) is a target neither source contains: check its feasibility and
   fidelity as composed (a steering bridge recombined with the label's speed taught a path
-  0.08-0.33 m (p90) off the expert's). A teacher's identity is its own score on your endpoint:
+  0.08-0.33 m (p90) off the expert's). A deviation is measured against what the reference run
+  actually did, not against the arithmetic you think was intended: measure the reference first.
+  *(Receipt: a sampler correction was called wrong for drawing DAgger at 44% against an 'intended'
+  2.4% computed from unsplit lengths; the shipped model had itself trained at 44%, so the
+  correction was the parity it claimed to be.)* A teacher's identity is its own score on your endpoint:
   imitation cannot push a student below the variability of what it imitates, so
   decompose the gap into the part already at parity with the source and the part that
   is not — only the second is reachable by more data. One afternoon of measurement

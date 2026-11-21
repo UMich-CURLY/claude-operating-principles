@@ -50,6 +50,10 @@ discipline, the assistant's included, is load-bearing.
   of a stored record resolves each external input at the version its contract line names,
   never the newest available. *(Receipt: a relabel read the newest cached map after the source
   environment had changed it.)*
+  A success record is written from the verification's result, never alongside the action: the
+  log line that says 'uploaded' is computed from the verified count, and a failure writes its own
+  line. *(Receipt: an upload loop stamped UPLOADED with n=0 after every write was refused; the
+  stamp had to be corrected by a second line.)*
 - **The expectation is written before the run, in the ledger.** Purpose, the exact configuration,
   the expected number, the decision rule and the stop condition go into the state document before
   the launch (`decision-gate` supplies the form). A run without that entry is not cited afterwards;
@@ -67,13 +71,21 @@ discipline, the assistant's included, is load-bearing.
   apply step is conditional on that check's exit status in the same command; a result printed and
   not consumed gates nothing. *(Receipt: a helper's failing test scrolled past while the install
   ran anyway.)* An agent that needs an approval-gated command to finish hangs instead; write the
-  brief so it never needs one.
+  brief so it never needs one. A brief states the goal and its acceptance test, not a mechanism to
+  keep: a 'keep X' line makes the agent and its reviewers defend X instead of testing it.
+  *(Receipt: a rework brief said 'keep that correction'; the agent built on a sampler whose weights
+  changed meaning with node count, and its reviewer flagged the right fix as blocking because it
+  broke parity with the kept one.)*
 - **The surface is small and visible.** One status command lists every running watcher, armer and
   loop with its arguments and the version of the file it executes; one queue writer under a lock;
-  a watcher is restarted whenever its file changes (a shell keeps executing the old text); cron is
+  a watcher is restarted whenever its file changes (a shell keeps executing the old text); an agent
+  likewise keeps the brief it read at start, so a change of scope (drop a dispatch, a push) means
+  stop it and relaunch with the edited brief, never an appended line; cron is
   limited to resource holds, pushes and status. Anything else that can launch, cancel or queue is
   retired, not paused. *(Receipt: a loop stopped by a flag file was one cron guard away from
-  relaunching a closed round.)*
+  relaunching a closed round.)* *(Receipt: a census step appended to a running agent's brief was
+  never read; a later scope change was applied by stop-and-relaunch two minutes in, before the agent
+  reached its push or smoke.)*
 - **Two independent routes before anything crosses the team boundary.** A bundle: the harness on
   the delivered files, with every input engaged, plus a diff against the last delivery. A number:
   the stamp plus the tracker's record. A document: generated from the artifact's manifest, then read
