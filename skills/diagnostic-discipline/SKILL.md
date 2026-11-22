@@ -42,6 +42,15 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   errors blamed on a scheduler change all fell at 346-382 GB served since restart, a 2.6%
   spread against 18-36% in age, none in 241 h below the band.)*
 - **For ablations and A/Bs:** change one mechanism at a time, or use a design that makes effects separable, so a measured difference attributes to a single cause. An ablation that moves three things at once produces information you cannot assign. A mechanism includes every input defined in terms of it (its time base, frame or units); swap them together.
+- **To move a working system onto a new base, reproduce first, then prune.** Read the record
+  of past arms first: start from the smallest variant already shown to tie, and do not re-test
+  rows earlier arms settled. Port everything it had and show one run that ties; then remove one
+  piece per run (same seed) and drop a piece only when its removal ties within read noise; run
+  the removals on the original base when it is cheaper, so only pieces that matter get ported.
+  Adding pieces one at a time to the bare base misses interactions and invites redesigning what
+  worked. *(Receipts: the stock base scored 54/87 against 82/87 and lost a whole scenario
+  family; four removal runs were first briefed against the shipped model, until the owner
+  pointed out an earlier minimal line had already dropped three loss terms and tied it.)*
 - **A fixture you authored tests the code against your model, not against the world.**
   Synthetic inputs are built from the same understanding as the code they exercise, so
   they cannot reveal that the understanding is wrong: construct a trace to overshoot 2x
@@ -70,9 +79,12 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   is evidence of that trade — a design fact, not a hyperparameter.
   *Matched reference*: the reference differs from the arm only in the tested variable; check
   both from each run's own logged config, not the recipe name, and when a reference turns out to
-  carry an extra treatment, re-read every verdict made against it. *(Receipt: a week of arms read
+  carry an extra treatment, re-read every verdict made against it. When the shipped
+  configuration differs from the ablation base, read each arm against both: the same base
+  (isolates the piece) and what will ship (what the result must match). *(Receipt: a week of arms read
   "worse than the shipped model" tied it once both sides were compared without the shipped
-  model's hidden label offset.)*
+  model's hidden label offset.)* *(Receipt: against a shifted base two rows looked tied, against
+  the unshifted reference one lost past the noise bar.)*
   *Size*: estimate the expected difference against the measured noise floor before
   spending compute; arms that differ on too few inputs cannot show an effect — enlarge the
   difference or don't run. *(Receipt: arms differing on ~2% of draws, resized to ~12%.)*
@@ -92,6 +104,12 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   evaluator is corrected, re-score every standing decision it supported and report each as
   held or flipped. *(Receipt: a 20-2 paired margin was 11-1 with two scorer weak spots
   removed and a tie without one all-or-nothing cell; no decision flipped.)*
+  *Readout*: check the readout can see what the removed piece touches, and that the removal
+  changes only that piece. *Bound each arm*: a removal landing far below a base that never had
+  the piece points first at a broken arm; check its training sanity before believing it.
+  *(Receipts: one arm removed weights on data the suite never reads and another also moved a
+  second path, both caught before dispatch; an arm at 21/87 below a 54/87 stock base passed its
+  sanity check (clean training, equal open-loop error) and stood as a real closed-loop failure.)*
 - **Continuations compare only at matched progress, with an untreated control.** When a
   treatment adds training/time on top of a base artifact, either the baseline receives the
   same additional progress or the comparison is made against the base's own curve at the
@@ -130,7 +148,10 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   the target: check the quantity the loss fits after every encode, decode and augmentation, not
   the label as written; a correct label can become a biased target. *(Receipt: labels centered on
   the lane on both bend directions decoded into targets 2-7 cm inside left bends and 10-23 cm
-  inside right bends.)*
+  inside right bends.)* A benchmark that stubs an input cannot clear that input: read the
+  production run's own timing breakdown before calling a suspect refuted. *(Receipt: a
+  benchmark with images stubbed refuted the suspect and found the loader fast enough; the run's
+  own timings showed 1.8 s/step outside compute, at the stubbed fetch.)*
 - **A root cause names the mechanism at the resolution of the fix.** Name it at file and
   function level, quantify each candidate's share, and confirm it two ways
   (ground-truth-discipline, Principle 4). "Training" or "the data" is a category, not a

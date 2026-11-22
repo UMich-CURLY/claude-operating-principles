@@ -5,7 +5,7 @@ description: When writing any value, claim, or decision into a durable artifact 
 
 # pin-and-trace
 
-Whenever you are about to write a number, claim, or decision into a durable artifact, first ask: *where is the canonical source of this value, and is it pinned?*
+Whenever you are about to write a number, claim, or decision into a durable artifact, first ask: *where is the canonical source of this value, and is it pinned?* *(Receipt: a month of pass counts reported in status messages carried no read name, so the backfilled history marked most of them unverified; a count is recorded with the read and scorer that produced it, or not at all.)*
 
 ## When to invoke
 

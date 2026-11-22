@@ -311,6 +311,10 @@ summary, release note — not only where it is fully proved or defined.
   *(Receipt: a planner derivation called multiple-choice learning "EM", a commitment
   constraint "exact conditioning", a mean-only approximation "IMM", and a sufficient norm
   condition "exactly when"; an independent review caught all four.)*
+- An exclusion travels with every restatement of the claim; an owner decision an audit
+  leaves open goes to the owner, not into the next brief. *(Receipt: an audit said
+  'steering targets not ported, owner decision needed'; three later rounds and every
+  summary said 'main reproduces what we have', true for the labels only.)*
 
 ## Principle 4 — Triangulate load-bearing claims (independent, redundant confirmation)
 
@@ -357,6 +361,12 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   (same weights + inputs → same outputs to tolerance), not just shape or
   plausibility — and re-run it as the code changes. Gate fidelity upstream, where
   it is cheap, instead of discovering drift downstream, where it is not.
+- **Per-PR checks do not add up to a whole-chain claim.** A series that claims to
+  reproduce a reference keeps one parity ledger of the reference as actually produced
+  (logged config, code, artifacts) against the merged result, row by row; every PR and
+  summary cites it, and 'reproduces' is said only while it has no open rows.
+  *(Receipt: three PRs each passed their own gates while the merged chain trained
+  without targets the shipped model had used.)*
 - **Cross-harness evaluation: the output→metric mapping is a modeling decision.**
   To score model A in model B's metric, you must map A's native representation into
   B's format — treat that as a substantive choice, not plumbing. (a) Don't assume A

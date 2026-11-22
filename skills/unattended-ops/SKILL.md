@@ -119,7 +119,10 @@ GPU-hours.
   an auth death distinctly from a data fault — `rc=1` cannot tell them apart; check the
   profile and client the *failing step* uses (a CLI answered from a cached role while the
   SDK's session was dead); and where work outlives any token, poll rather than
-  strand it.
+  strand it. When a lease will expire before the planned capacity frees, launch now on other
+  capacity and hedge with a duplicate on the planned capacity; cancel the copy that did not
+  start once one trains. *(Receipt: a login expiring at 6:30 AM would have stranded two runs
+  waiting for nodes freeing at 6 AM.)*
 - **Cleanup runs on every exit path.** What a job creates for itself (images, temp trees,
   locks, instances) is released by a trap on exit, not by its success branch; a failed run
   otherwise leaves its debris for the next run to trip on. *(Receipt: a dispatch that died on
@@ -136,7 +139,9 @@ GPU-hours.
   wrapper) captures a short-lived parent, so a liveness check on it reads 'dead' while the
   work runs, or 'alive' after it died. Have the worker write its own pid, or check by its
   stamped outcome. *(Receipt: a read probe's recorded pid was the launch shell; it read DEAD
-  while the probe had queued its reads normally.)*
+  while the probe had queued its reads normally.)* A recorded PID proves nothing alone: PIDs are
+  reused, so liveness also checks the command line. *(Receipt: a check reported a finished agent
+  alive because its old PID belonged to another process.)*
 - **Incidental machinery must not be able to destroy the run's product.** A long
   unattended job exists to produce one artifact; anything optional around it —
   telemetry, a logged image, a metrics push, the choice of output location — must
@@ -160,7 +165,10 @@ GPU-hours.
   lives in the assistant's session (cron, monitor) is lost when the context resets; after any
   reset, list scheduled jobs first and re-arm every standing one before other work. *(Receipt:
   the hourly box check silently stopped after a context reset; two finished studies and a
-  100%-full disk went unreported for hours until the owner asked.)*
+  100%-full disk went unreported for hours until the owner asked.)* A health probe reports
+  alive, dead or busy (a lock or rate limit held by a sibling); busy never reads as dead.
+  *(Receipt: a login probe read 'dead' for six minutes during each of four dispatches because a
+  CLI lock was held.)*
 
 ## Monitoring
 

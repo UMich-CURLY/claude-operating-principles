@@ -35,7 +35,9 @@ were waiting on lost inside a status.
   model each row favored and had to ask.)* Use the field's established name for a technique, with a checked
   reference; coin a term only when none exists, and say so. A word shown to mislead stays
   retired, even for the corrected quantity. *(Receipt: "clean 7/14" reused after "clean" was
-  shown to count episodes that merely did not crash; the reader had to ask.)*
+  shown to count episodes that merely did not crash; the reader had to ask.)* Before naming a
+  table column in prose, read its definition from the tool that prints it. *(Receipt: a column of
+  one binary scenario cell was reported twice as 'set speed'.)*
 - **Say what happens, not the design's own vocabulary.** "The solver raises an error rather than
   ignore a constraint it cannot honor", not "it refuses loudly at the seam".
 - **Times and dates go in the reader's clock**, read from the system, never inferred from a log

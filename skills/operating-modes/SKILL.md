@@ -23,15 +23,26 @@ its state document. Mechanics live in `unattended-ops`; verification in `ground-
    spreads over: workers inside one invocation can't exceed that invocation's items, so when each
    invocation is small, run invocations concurrently under one total cap. *(Receipt: 8 workers per
    recording cell would have idled half the PD instances, since each cell held 2-4 episodes;
-   concurrent cells capped at 8 workers filled them.)*
+   concurrent cells capped at 8 workers filled them.)* Before spending a scarce resource on a test,
+   check whether a run already in flight can serve as it. *(Receipt: a discovery test planned its
+   own run while two runs on the same path were already training.)*
 4. **No launch without a preflight stamp.** Before recording, training or evaluation: resource type
    and count; the deploy or eval configuration loads the artifact with zero ignored keys; the suite
    and scenario list; every referenced artifact present on the far side (a shard is its table *and*
    its images); the credential window covers the dispatch time; stamps time-scoped. `PREFLIGHT_OK`
-   or no launch.
+   or no launch. When a launch is blocked, report every gate it will meet in one decision: dry-run
+   with each known refusal stubbed so the next surfaces. *(Receipt: one arm was 'unblocked' three
+   times in a morning, each gate found after the last fix.)*
 5. **The full picture lives in one scoreboard.** Rounds x candidates x per-cell results, updated on
    every read by the loop itself, at the top of the state document; chat carries the pointer and the
-   delta, never the only copy.
+   delta, never the only copy. A multi-PR goal has one list with a stated end condition, and every
+   PR maps to a row; a PR that bundles, splits or adds work updates the list in the same step.
+   *(Receipt: an 18-item roadmap went stale for three days while PRs grew off it, and an audit
+   re-found the stale items as a 'new' gap list.)* The canonical state document is updated at every
+   checkpoint (decision, verdict, finished study); freshness is enforced by the routine status
+   check, which flags drift; superseded logs move verbatim to an archive with a pointer.
+   *(Receipt: the state document stopped for 13 days; an already-ablated row was proposed for
+   ablation twice before the owner caught it.)*
 6. **Serial tails overlap the long stage.** Labelling, syncing, uploading and warm-ups run inside the
    recording or training window, so the post-stage tail is minutes; the ETA table shows the critical
    path so the principal can see the gaps.
@@ -56,7 +67,12 @@ its state document. Mechanics live in `unattended-ops`; verification in `ground-
    approval for a side step (an upload, a shared write), build the variant without the side step so
    the main action proceeds under the authority it already has; bring the side step separately.
    *(Receipt: a training arm built at 2 AM waited ten hours for a go on uploading 58 small files its
-   loader could have computed itself; the one-node dispatch was already pre-authorized.)*
+   loader could have computed itself; the one-node dispatch was already pre-authorized.)* When each
+   fix uncovers another gap, stop fixing: freeze outward changes, build the full fact base from
+   independent angles (static audit, end-to-end run, measured need), have reviewers who see only the
+   goal list what is required, and act only on a plan that survives that. *(Receipt: in one day a
+   PR was reworked twice and two gap lists surfaced; the owner froze PRs until a verified roadmap
+   existed.)*
 8. **Credentials are part of the status.** Expiry against the next dispatch window is a line in every
    status; the principal is asked to refresh before the window, with the exact time — never after
    the stall.
