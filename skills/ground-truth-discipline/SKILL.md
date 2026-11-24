@@ -91,6 +91,10 @@ checked against ground truth.
   output means what its name says for any consumer. *(Receipt: a pose-to-control encoder,
   the exact inverse of its decoder, returned curved paths up to 0.39 m inside; a fix tuned
   to one source's heading convention pushed another 0.19 m outside.)*
+  A feature built offline from logged data can leak the target through whether it is present or what
+  shape it has, not only through its values; removing the leaky value moves the leak into its absence.
+  Check what the deployed source would provide at the same moment. *(Receipt: a feature that was shorter
+  or missing exactly when the outcome was "stays still" encoded the label.)*
 - **A label must depend on what it is meant to teach.** For each target quantity, name its
   source: derived from the expert, or copied from the learner's own rollout. A copied quantity
   turns the learner's error, or its training noise, into its target *(receipt: dropout in a

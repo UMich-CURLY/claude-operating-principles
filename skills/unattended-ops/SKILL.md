@@ -24,7 +24,10 @@ GPU-hours.
   must not be able to satisfy itself: a waiter may never emit the signal it waits for in
   any form — log line, heartbeat, status stamp, filename — or it fires on its own output.
   *(Receipt: a start stamp that named the awaited token opened the gate early, three
-  times in one day.)*
+  times in one day.)* Gate on structured events the action itself emits (key=value lines, result
+  records), never on words in free text (hand-off signals: `enforcement-discipline`, success records).
+  *(Receipts: a text check matched a negation and hid ready work; a "done" flag was written although
+  the step before it had failed.)*
 - **A probe or kill must carry no matchable trace of its target.** Match by an identity only
   the target produces, in an invocation that contains nothing else — or exclude the caller's
   own ancestry from the match; repeating one filtered probe is not a second angle. *(Receipts:

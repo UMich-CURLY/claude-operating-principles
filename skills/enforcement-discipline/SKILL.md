@@ -31,7 +31,7 @@ discipline, the assistant's included, is load-bearing.
   assistant's own rule, held a fine-tune about 4 h.)*
 - **One entry point per action.** Read, record, dispatch, deliver: one script each, and nothing
   else launches, not cron, not an armer, not a session. The script embeds the contract, and the code
-  beneath it refuses anyway (defense in depth, because the script is the layer people edit).
+  beneath it refuses anyway (defense in depth, because the script is the layer people edit). Make the expensive or irreversible action opt-in: run with no explicit mode, the entry point does nothing or a dry run, so reading or testing it cannot trigger it. *(Receipt: a script was run to inspect it and its default was the real launch.)*
 - **A guard is watched refusing once before it is trusted.** At install, run the case it must
   reject and see the refusal; a guard that has only been seen passing is untested
   (`ground-truth-discipline`, positive case). *(Receipt: a filter guard was inert for a night; the

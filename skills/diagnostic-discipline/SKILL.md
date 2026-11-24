@@ -48,7 +48,9 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   piece per run (same seed) and drop a piece only when its removal ties within read noise; run
   the removals on the original base when it is cheaper, so only pieces that matter get ported.
   Adding pieces one at a time to the bare base misses interactions and invites redesigning what
-  worked. *(Receipts: the stock base scored 54/87 against 82/87 and lost a whole scenario
+  worked. Then confirm the final set in one run with every dropped piece removed together: single
+  removals can each be neutral and still fail together; if it fails, add the removed groups back into
+  the final set one at a time to find the one that carries the result. *(Receipts: the stock base scored 54/87 against 82/87 and lost a whole scenario
   family; four removal runs were first briefed against the shipped model, until the owner
   pointed out an earlier minimal line had already dropped three loss terms and tied it.)*
 - **A fixture you authored tests the code against your model, not against the world.**
@@ -87,7 +89,14 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   the unshifted reference one lost past the noise bar.)*
   *Size*: estimate the expected difference against the measured noise floor before
   spending compute; arms that differ on too few inputs cannot show an effect — enlarge the
-  difference or don't run. *(Receipt: arms differing on ~2% of draws, resized to ~12%.)*
+  difference or don't run. Measure that floor by retraining the baseline with a new seed, not only by
+  re-scoring one checkpoint: training variance can dwarf evaluation variance. *(Receipts: arms
+  differing on ~2% of draws, resized to ~12%; a reseeded baseline moved more than most of the changes
+  being tested.)*
+  *Same answer space*: compare scores only in a shared answer space. Accuracy over coarser classes is
+  higher by construction, so score a fine-grained model at the coarse level (its marginal) rather than
+  raw accuracy against raw accuracy. *(Receipt: a coarser label set "won" on raw accuracy and tied once
+  both were scored at the same level.)*
   *Structure*: a method built to model a structure (modes, a cause, positives) cannot beat its
   simpler baseline on data or evaluations that lack it; census the structure first, calibrated on
   a case where it is known to exist. *(Receipt: four multi-mode runs were tuned before a census
