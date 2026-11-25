@@ -86,6 +86,12 @@ GPU-hours.
   its expensive step; a check made at queue time goes stale. *(Receipts: a build queued at
   36 GB free started at 31 GB and ran out of disk; a 502-character run description was
   rejected after the image was built and pushed.)*
+  Count what already holds the capped resource from the system that enforces the cap, not from
+  the launcher's own list, which misses jobs started any other way. *(Receipt: a node queue's
+  running list was empty while two directly launched runs held both nodes of a two-node cap.)*
+  A usage quota that resets on a window binds the same way: budget a job's run time against every
+  window it crosses, and concurrent jobs by their combined burn, sub-agents included. *(Receipt:
+  7-9 concurrent agents against a cap of 4 exhausted both accounts in 2-3 h and all stalled.)*
 - **HARD RULE — quiesce file-sync around VCS writes; diffstat before every push.**
   A sync daemon that mirrors `.git` can deliver a stale index, and a "one-file"
   commit then silently snapshots an entire stale tree. Pause the sync for the
@@ -130,12 +136,21 @@ GPU-hours.
   locks, instances) is released by a trap on exit, not by its success branch; a failed run
   otherwise leaves its debris for the next run to trip on. *(Receipt: a dispatch that died on
   a dropped login left its 37 GB image behind; the retry then sat in a disk wait at 20 GB free
-  until the image was removed by hand.)*
+  until the image was removed by hand.)* A guard that delays releasing a shared resource counts
+  only that resource's own users, and on timeout it releases; it never lets the resource lapse to
+  its expiry while others queue for it. *(Receipt: an idle pool of shared simulator instances
+  stayed held because a job on another pool counted as in use, until a two-hour expiry, while two
+  colleagues' requests queued.)*
 - **A standing job's files live somewhere durable.** Anything a recurring check or waiter
   executes or reads (its script, its state) sits outside temp and scratch directories, which
   get swept, and the job fails loudly when the file is missing instead of reporting old
   output. *(Receipt: the hourly check's script vanished from the session scratchpad overnight;
   the next run printed the previous hour's saved output until the missing file was noticed.)*
+- **A deliverable owed by a fixed time is written first and kept current.** The job writes the
+  report's skeleton before any work and updates it after every completed step, so a quota stop,
+  crash or late finish still leaves a usable, dated report. *(Receipt: two of four overnight
+  review agents owed reports by 06:00 each hit two usage-limit windows and wrote nothing until
+  after the deadline.)*
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it. Record the pid of the
   process that does the work, not of its launcher: `setsid cmd & echo $!` (or a `bash -c`

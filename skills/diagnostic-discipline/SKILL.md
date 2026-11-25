@@ -79,6 +79,13 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   *Two-sided*: an intervention aimed at a rare event competes with the common one, so
   state what must improve AND what must not regress. A dose chosen to *limit damage*
   is evidence of that trade — a design fact, not a hyperparameter.
+  *Dose*: before running a lower-dose arm, compute the share it actually delivers; one that nearly
+  removes the factor re-measures the reference. A dose-response says how much a source hurts, not
+  why: harm that scales with its share fits both "the content conflicts" and "the source is
+  corrupted", so audit the source (alignment, inputs, label coverage) before blaming the content.
+  *(Receipts: a "lower dose" arm specified as a repeat count cut the share from ~6% to under 1%,
+  near the reference, and became a half dose; halving a new source halved its damage, and a
+  label-timing and input audit was started instead of blaming the behaviors.)*
   *Matched reference*: the reference differs from the arm only in the tested variable; check
   both from each run's own logged config, not the recipe name, and when a reference turns out to
   carry an extra treatment, re-read every verdict made against it. When the shipped
