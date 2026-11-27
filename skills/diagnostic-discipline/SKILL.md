@@ -22,6 +22,8 @@ In synthesis, do not strip assumptions to a minimum — that is a diagnostic mov
 
 When a task blends both (debugging a system you're also redesigning), sequence them: finish the diagnosis and let it set the invariants *before* synthesis is allowed to touch them.
 
+**Exception: fund the fix that works under every candidate cause.** When a forward change is expected to remove a performance gap whichever candidate cause is true, spend expensive capacity on that change (after its cheap falsifier, Habit 2); diagnosis that would not change the next build step runs only on cheap measurements of what already exists. Run failures still follow `operating-modes` #1. *(Receipt: a night of training capacity went to single-factor arms explaining a behavior gap, none of which closed it; the forward change closed it.)*
+
 ## Habit 2 — Design every test for attributability, not just information
 
 A test that tells you a lot but can't say *what* caused the result is often worse than a narrower test that cleanly localizes blame. Prefer the experiment, ablation, or check whose outcome most sharply **partitions the hypothesis space per unit cost** — not the one that merely yields the most data.
@@ -64,6 +66,14 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   physically. Then keep the real-data case as a regression test. "The suite is green" is a
   statement about the fixtures.
 - **Decompose aggregates before comparing or optimizing them.** An aggregate metric (a benchmark average, a headline rate) is a bundle of members; never quote it head-to-head or aim a fix at it without breaking it down by category/member first. Check for degenerate members that move all systems equally (they deflate every comparison without ranking anything) and for effects concentrated in a subset (the fix then targets that subset, not the aggregate). And when a training-side target is set, state the specific downstream observables it should move — that is what makes the later result attributable. The same holds for a **constraint set**: only some constraints are active, so measure which budgets are actually consumed before loosening "the envelope" — a set spending 97% of one budget and 50% of another is limited by the first, and raising the second is a no-op. Count **upstream supply** too: a filter returns only what entered it, so a rare case's base rate caps any threshold change, and a ceiling nothing reaches means synthesising rather than mining. A perturbation that leaves the training distribution establishes robustness to that departure, not the mechanism; ground the mechanism in-distribution and label which claim each number supports.
+- **Verdicts come from the whole table.** Before calling a question settled or a system better, put every
+  relevant result side by side (each run, each condition, each measure, and the same-config rerun as noise floor),
+  each row under one protocol (`pin-and-trace`), and say which way each points; a new result updates the table, it
+  does not replace it. When one objective proves misleading, do not swap in another single one (GTD, 'A gate is not
+  a decision'): read all measures together, and disqualify a candidate only for a failure the table shows, not one
+  predicted. *(Receipts: an effect asserted, reversed and re-asserted four times
+  from the newest single result sat within noise when tabled; a model that doubled its predecessor's simulated pass
+  count was worse in the field.)*
 - **Check that a learner reads the cause, not its correlate.** When a target should respond to
   input X and X travels with Y in the data, measure the trained model's response to X with Y held
   fixed (a slope against the target's own slope). A wrong-sign or flat slope means the model
@@ -73,7 +83,11 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   *(Receipt: a planner's curvature fell with lateral offset in its targets but rose with it in the
   model, because nearly every off-center training start was also on a bend.)*
 - **Settle the comparison before running it.** *Headroom*: a baseline at ceiling or
-  floor can only show harm — grade where it demonstrably fails. *Position*: measure
+  floor can only show harm — grade where it demonstrably fails. A spread that collapses across seeds or
+  variants may be a ceiling or floor, not robustness: confirm the metric still separates systems known to
+  differ. *(Receipt: on a new simulated vehicle, two seeds that had differed by 13 points and a third model
+  all scored the same low value, while a genuinely different model scored far higher: the three sat at the
+  metric's floor.)* *Position*: measure
   what the baseline imitates against the same reference you grade against; it may sit
   off its own training distribution, and that gap gets charged to your intervention.
   *Two-sided*: an intervention aimed at a rare event competes with the common one, so
@@ -164,7 +178,9 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   the target: check the quantity the loss fits after every encode, decode and augmentation, not
   the label as written; a correct label can become a biased target. *(Receipt: labels centered on
   the lane on both bend directions decoded into targets 2-7 cm inside left bends and 10-23 cm
-  inside right bends.)* A benchmark that stubs an input cannot clear that input: read the
+  inside right bends.)* Before calling a change inert, check every path by which it reaches the loss,
+  on every data slice training uses, not one representative sample. *(Receipt: a label shift judged inert from one frame type reached the trained
+  targets through a slice that check skipped.)* A benchmark that stubs an input cannot clear that input: read the
   production run's own timing breakdown before calling a suspect refuted. *(Receipt: a
   benchmark with images stubbed refuted the suspect and found the loader fast enough; the run's
   own timings showed 1.8 s/step outside compute, at the stubbed fetch.)*

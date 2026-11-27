@@ -20,7 +20,11 @@ GPU-hours.
   by the job itself, or a resource query **filtered to your workload**. Same trap one
   surface up: address remote objects by unique key, never by position in a listing or by the newest line of a shared log —
   `order="-created_at"` has returned a twelve-day-old run as newest, and a watcher
-  bound to the wrong object does not fail, it reports about something else. And a gate
+  bound to the wrong object does not fail, it reports about something else. When the object can be
+  replaced (retry, re-dispatch), re-resolve its key from the durable name at every check. A one-time
+  permission is revoked as soon as its action is taken or dropped, never left armed for a later one.
+  *(Receipts: a watcher held a discarded run's id after a re-dispatch; an unused second-dispatch
+  permission would have let a later duplicate through.)* And a gate
   must not be able to satisfy itself: a waiter may never emit the signal it waits for in
   any form — log line, heartbeat, status stamp, filename — or it fires on its own output.
   *(Receipt: a start stamp that named the awaited token opened the gate early, three
@@ -75,6 +79,10 @@ GPU-hours.
   *(Receipts: a lower-priority job with a 180 s settle beat a higher-priority one with a
   330 s window after it had waited four hours; a queued job cancelled ten minutes before
   its replacement could be submitted let another team's job take the reserved node.)*
+  Before asking for more of a scarce resource, split each job's time into waiting and running:
+  capacity already held but idle is cheaper to put to work than new capacity is to buy. *(Receipt: each
+  evaluation ran 16 min and waited 45 for a slot while its instances sat held and idle; a scheduling rule
+  change, not more instances, was the fix.)*
 - **Size an unattended job against the limit that binds and everything armed beside it.**
   The binding limit is the enforced quota (a per-user or per-group cap), not the machine's
   visible total, and the load is everything else armed on the machine, not an idle box.
@@ -141,6 +149,10 @@ GPU-hours.
   its expiry while others queue for it. *(Receipt: an idle pool of shared simulator instances
   stayed held because a job on another pool counted as in use, until a two-hour expiry, while two
   colleagues' requests queued.)*
+- **Each queued item runs in its own environment.** A runner that loads item settings into one
+  long-lived shell carries every item's settings into the next; start each item in a fresh process so it
+  gets exactly the settings it names. *(Receipt: one item's guard override stayed set for every later
+  item, silently disabling the guard.)*
 - **A standing job's files live somewhere durable.** Anything a recurring check or waiter
   executes or reads (its script, its state) sits outside temp and scratch directories, which
   get swept, and the job fails loudly when the file is missing instead of reporting old

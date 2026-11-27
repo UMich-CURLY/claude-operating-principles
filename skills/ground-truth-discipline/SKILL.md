@@ -102,7 +102,12 @@ checked against ground truth.
   fixed teaches the model to ignore that input. *(Receipt: 2026-09-26, every free-road label in 28
   DAgger shards held the recorded speed, the lead-following expert could never accelerate, and the
   set-speed copies at 0.7x and 1.3x carried identical labels; the model decayed below its set speed
-  in closed loop and barely responded to it.)* Test an optional input absent, present but
+  in closed loop and barely responded to it.)* Conversely, an input may be dropped or set to "unknown"
+  only when the target is unique given the remaining inputs; when one observation admits several correct
+  targets, that input must be recorded and fed to the model before training on, or collecting data for,
+  the behavior: training averages the modes or learns the majority, and data collected by running the model
+  follows the majority. *(Receipt: a missing speed input could default safely; a missing route could not:
+  data collected by running the model drove straight through turns and yielded almost no usable data.)* Test an optional input absent, present but
   untrained, and trained then off; the off state is learned behavior, not the old path.
   *(Receipt: an input switched off after training reproduced its data's mean, not the prior
   model's behavior.)*
@@ -128,7 +133,12 @@ checked against ground truth.
   `defaults`/inheritance layer on top of the static file and routinely change
   the value that actually runs. Read the launch command (or dump the merged
   config) first; a value quoted from the base YAML is a hypothesis, not the
-  runtime truth.
+  runtime truth. Diff two configurations structurally, component by component
+  (each top-level section: model part, dataset, optimizer),
+  never as one flattened list: a container that changes shape between them (list vs
+  map) turns every key under it into add/remove noise and buries the row that matters.
+  *(Receipt: a 948-row flat diff hid that the reference trained only one component; a
+  per-component diff found it, and that single setting restored the reference's score.)*
 - **Characterize an input before you spend compute on it.** A model artifact's
   identity is its weights, not its name: establish which config loads it with zero
   invalid keys and zero shape mismatches, and which candidate base leaves the
