@@ -127,8 +127,13 @@ This is the operational form of the Duhem–Quine problem: any result lands on a
   with no `reset_peak_memory_stats` rises under a leak and also rises-then-plateaus
   when healthy, so "it rose" is weak and "it never fell" is nothing; confirm
   against an instrument with the opposite failure mode.
-  *Units*: count independent units, not rows; repeats a subject passes all or none of
-  together are one unit, and the decision rule names its unit before the run. *Scorer*:
+  *Independent reference*: a new instrument is judged against evidence independent of the one it
+  replaces, never against a target written from the incumbent's outputs, which the incumbent matches by
+  construction (`decision-gate`: anchors are exogenous). *(Receipt: an evaluation redesign "failed" a
+  model-order criterion at Spearman 0.75 against the old suite's 0.99, but the order had been written
+  from the old suite's pass counts; on the one independent reference, the car, the two suites ranked the
+  same.)*
+  *Units*: count independent units (scenarios, subjects, time blocks), not rows or the replicates inside them; repeats a subject passes all or none of together are one unit. Intervals are clustered by that unit, power comes from adding units rather than replicates, and the decision rule names its unit before the run. *(Receipt: an 87-episode suite was 15 scenarios; seeds moved a model's score 0.4 cm within a scenario against 6.5 cm between scenarios, so per-episode intervals overstated the precision and more seeds bought nothing.)* *Scorer*:
   reproduce the evaluator exactly, then report each gap beside the same gap with the
   evaluator's known weak spots removed (edge samples, warm-up, such cells); when the
   evaluator is corrected, re-score every standing decision it supported and report each as

@@ -17,12 +17,16 @@ its state document. Mechanics live in `unattended-ops`; verification in `ground-
    command — runs with step rate and projected finish, queue, watchers, resources, credential
    expiry, last stamps — and its output accompanies every status reply and every dispatch. A
    process state ("running") is never reported as progress.
+   An ETA is computed from the job's own configured length and its measured rate, never from a default
+   length; when the length cannot be read, the ETA says so. *(Receipt: a status page assumed the
+   standard 4,800 steps for a 1,844-step run and projected its end about 21 hours after its actual
+   finish; the plan built on that ETA left two nodes idle.)*
 3. **Resources for an unattended loop are held explicitly.** The floor (e.g. four instances) is
    enforced by a guard plus a hold that outlives the loop's longest quiet gap; idle-lapse rules do
    not apply to a loop the principal is asleep behind. Size parallelism to the unit of work it
    spreads over: workers inside one invocation can't exceed that invocation's items, so when each
    invocation is small, run invocations concurrently under one total cap. *(Receipt: 8 workers per
-   recording cell would have idled half the PD instances, since each cell held 2-4 episodes;
+   recording cell would have idled half the simulator instances, since each cell held 2-4 episodes;
    concurrent cells capped at 8 workers filled them.)* Before spending a scarce resource on a test,
    check whether a run already in flight can serve as it. *(Receipt: a discovery test planned its
    own run while two runs on the same path were already training.)*

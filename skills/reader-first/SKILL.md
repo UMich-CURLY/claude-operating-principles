@@ -20,6 +20,9 @@ were waiting on lost inside a status.
   a list of ids, a paste-ready line) is the first content of the reply; other work waits. Text
   between tool calls is not reliably seen. *(Receipt: three job ids written mid-turn; the reader
   was still waiting 30 minutes later.)*
+  A scheduled report is delivered where the reader already looks, not only written to a file or a page
+  behind a link. *(Receipt: an evening brief was written on time but sat on a dashboard's details page
+  that was not republished; the owner looked for it in chat and on the page and found neither.)*
 - **In a document, each section opens with its claim and receipt; detail goes below.** Set up a
   comparison so the conclusion follows with no effort, then state it in one sentence. One figure
   per load-bearing claim; a table that carries a claim gets reading instructions. Lead
@@ -38,6 +41,10 @@ were waiting on lost inside a status.
   shown to count episodes that merely did not crash; the reader had to ask.)* Before naming a
   table column in prose, read its definition from the tool that prints it. *(Receipt: a column of
   one binary scenario cell was reported twice as 'set speed'.)*
+  Identifiers people will read (run tags, branch and file names) are made readable when created, from
+  words defined in one glossary, so no later text has to decode them. *(Receipt: four weeks of run tags
+  built from stacked internal codes, fifteen characters and no words; the owner asked what a run was
+  about 24 times.)*
 - **Say what happens, not the design's own vocabulary.** "The solver raises an error rather than
   ignore a constraint it cannot honor", not "it refuses loudly at the seam".
 - **Times and dates go in the reader's clock**, read from the system, never inferred from a log

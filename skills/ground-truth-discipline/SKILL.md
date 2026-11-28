@@ -350,6 +350,9 @@ alternative is re-auditing the whole edifice later, every time doubt resurfaces.
   and say only what the decision needs: every unneeded sentence is one more claim that can be wrong.
   *(Receipt: a review draft relayed a reviewer agent's mechanism unchecked — the 3.5 m lane width belongs
   to a different, more lenient check — and an independent pass caught it before posting.)*
+  A number passed on from a summary is quoted from the record the summary was written from, never from
+  the summary. *(Receipt: an hourly relay repeated a review's "37/42 and 37/45" for one round all night;
+  the graded record said 32/42 and 36/45.)*
 - **A gate is not a decision.** In core method development, never let a single
   gate, test, or metric decide that an artifact is trustworthy: require two angles
   that could fail in different ways, and treat "the gate passed" as one input, not

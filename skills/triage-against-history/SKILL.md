@@ -95,7 +95,7 @@ failure lives in the *target* or only in the *harness* before any destructive ac
   entrypoint applies (env-conditional merges, overrides, monkeypatches) and inspect the
   object the code *actually instantiates* — not a freshly-composed/idealized one. A
   static view that skips a runtime merge will lie. (Here: a plain `compose()` showed
-  clean readers; the trainer's `IS_LOCAL_ENV`-only `merge(cfg, cfg.local_override)`
+  clean readers; the trainer's environment-flag-only merge of a local override
   clobbered them — only reproducing that merge revealed it.)
 - **A symptom matches a known failure only if it fired where that failure fires.** Read
   the stage the job reached before naming the cause; the same "no progress" from a job
@@ -116,7 +116,7 @@ failure lives in the *target* or only in the *harness* before any destructive ac
 
 Before framing a setting as a choice, or as a question for a teammate, check the team's shipped
 artifacts and configs for the standard they already encode. A deviation from that standard is a
-defect to fix, not a preference to negotiate. (Here: every vehicle bundle on S3 carried `rerank16`;
+defect to fix, not a preference to negotiate. (Here: every deployed vehicle bundle carried the same planner-mode setting;
 the "which planner mode?" question for a teammate dissolved, and our single-plan fallback bundle
 turned out to be the thing that deviated.)
 

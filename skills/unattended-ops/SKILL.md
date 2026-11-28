@@ -83,6 +83,14 @@ GPU-hours.
   capacity already held but idle is cheaper to put to work than new capacity is to buy. *(Receipt: each
   evaluation ran 16 min and waited 45 for a slot while its instances sat held and idle; a scheduling rule
   change, not more instances, was the fix.)*
+  A job holds a serial resource only for the steps that need it: checks that need no shared state run
+  before it is taken, a check that can only warn never holds it, and it is never held while waiting for
+  a second resource (hold-and-wait, the deadlock condition). A waiter for it stays queued in order; any
+  bound it has is set from measured hold times (as above), and expiry re-queues rather than failing into
+  a manual retry. *(Receipts: every training dispatch held one lock 35-50 min, up to 15 of them in a
+  check that could only warn; a 30 min wait limit failed queued dispatches while both nodes sat idle for
+  hours. A recorder held the only recording lock 10.6 h waiting for simulator instances that evaluations
+  held, recording nothing and blocking the next round's recording.)*
 - **Size an unattended job against the limit that binds and everything armed beside it.**
   The binding limit is the enforced quota (a per-user or per-group cap), not the machine's
   visible total, and the load is everything else armed on the machine, not an idle box.
@@ -163,6 +171,14 @@ GPU-hours.
   crash or late finish still leaves a usable, dated report. *(Receipt: two of four overnight
   review agents owed reports by 06:00 each hit two usage-limit windows and wrote nothing until
   after the deadline.)*
+- **A job that ends with a step left leaves it runnable.** A job that ends with any step undone (an
+  approval, a write-up, a follow-up read) leaves that step as something any successor can run: a queued
+  entry or a ready command with its exact arguments, in a durable place, never a promise to act on a
+  reply, because the asker may have exited when the answer comes. *(Receipts: an agent wrote "say go and
+  I run the dispatch script" and exited; the answer had no recipient, the script on disk still named the
+  old run, and the run was re-queued by hand at 3 AM with the node idle. Another agent's replay finished
+  at 1 AM and its write-up sat as a prose note no running job read; the result surfaced only when the
+  owner asked for pending items.)*
 - **Verify detached processes from a fresh connection.** A backgrounded process
   that appears alive in the launching session may have died with it. Record the pid of the
   process that does the work, not of its launcher: `setsid cmd & echo $!` (or a `bash -c`
@@ -206,6 +222,12 @@ GPU-hours.
   cannot see a job that is queued and not yet running; the scheduler is the only
   witness to admission. Watch the submitter for admission and the logger for
   progress — inferring one from the other turns a queue into a phantom failure.
+  A watcher finds what it serves by discovery (a registry or a queue first, a name pattern last), never
+  by a list written when it was armed, and a request it finds but cannot parse is flagged, never
+  skipped: otherwise a producer added later, or one that writes the request in another format, waits
+  silently. *(Receipt: a push helper watched a fixed list of agent folders; a newer agent posted its
+  push request, waited 100 min, and ended blocked with its training never dispatched; later another
+  agent wrote its push request as prose and waited too.)*
 - **Switching off a default downstream step arms its replacement in the same action**,
   confirmed alive. *(Receipt: two training dispatches suppressed their default
   evaluation follower with nothing replacing it.)*
@@ -219,6 +241,20 @@ GPU-hours.
   is out gets a verified default job armed on the machine. *(Receipts: a chain died on an
   unbound variable after its first step; the resource idled 8 h overnight. Two reserved
   nodes freed during a session outage and idled ~2 h.)*
+  The last reader in a status chain (a page, a brief) computes the data's age itself from a timestamp
+  embedded in the data and marks anything older than its refresh interval as stale, so a dead machine,
+  scheduler or publisher never shows as the last good state. *(Receipt: an hourly check kept printing
+  its previous hour's saved output after its script vanished, and nothing in the output said it was
+  old.)*
+- **Judge a resource level on a sustained reading; judge a hard limit on the peak.** An alarm on a
+  resource level reads a sustained value, or reads against the phases known to swing it, so one sample
+  taken mid-phase raises no incident. A pass criterion names which it tests: the hard limit (the level
+  that kills the job) is judged on the peak, and an operating margin below it on the sustained level, so
+  a brief peak past the margin but well under the limit is reported, not failed. *(Receipts: a memory
+  smoke missed an 85% margin by 0.37 points on 9 of 563 samples while its steady state held 82-84%, and
+  the full run waited an hour for a call the curve already answered; a disk-floor alarm sampled during
+  an image build that briefly takes 20 GB asked for deletions while free space was back to 66 GB minutes
+  later.)*
 - **Verify an expensive async job's resolved config and its health counters (skipped
   or non-finite steps, step rate) in its first minutes**, not at readout — the cost of a
   silent config miss grows with every hour it runs — and arm nothing on the run's result

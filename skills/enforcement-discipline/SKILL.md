@@ -36,6 +36,10 @@ discipline, the assistant's included, is load-bearing.
   reject and see the refusal; a guard that has only been seen passing is untested
   (`ground-truth-discipline`, positive case). *(Receipt: a filter guard was inert for a night; the
   probe that caught it took a minute.)*
+  Before a guard switches from warning to refusing, it is run over everything already queued or in
+  flight; what it would refuse is fixed or registered first, or the switch stops the work it was meant
+  to guard. *(Receipt: a run-name guard switched from warn to enforce refused two queued training
+  dispatches whose tags were not yet registered.)*
 - **Provenance travels with the artifact, never beside it.** Each run writes one contract line into
   its own stamp and its stored configuration: commit, rig or environment marker, every setting that
   changes what the model sees or how the system moves, and the data members actually consumed.
@@ -44,6 +48,11 @@ discipline, the assistant's included, is load-bearing.
   protects: the provenance check compares the content that made the artifact (the labeling code),
   not a pointer that also moves for unrelated reasons. *(Receipt: a ledger-only commit moved HEAD
   during a label, and the provenance check voided a good shard.)*
+  A key that identifies a result (an evaluation tag, a cache or dedupe key) is built from every setting
+  that changes the result, so two different results never share one; a readable run name stays readable,
+  and the settings appear as explicit suffixes. *(Receipt: evaluations of one checkpoint with an input
+  on and off got the same tag; the second was refused as "already running" and would otherwise have
+  reused the first's numbers.)*
   The same key binds deferred and named things: a waiter executes only the content it
   verified and refuses if its pointer moved, and an artifact a configuration names is
   write-once (conditional write, content-hash check; a rebuild takes a new name). A reprocess

@@ -99,6 +99,10 @@ or comment.
   but applied *per-rank, unsharded* makes a 48h cap silently cut a run that needs
   ~80h on 64 GPUs; verifying `steps_per_epoch = num_samples // batch_size` (no
   world-size division) in the trainer surfaced it before committing the run.
+  The same questions come before turning a knob to save a resource: a per-worker figure may be that
+  worker's share of a fixed total, which fewer workers do not reduce. *(Receipt: 241 GiB per rank x 8
+  ranks exhausted a 2 TiB host; 4 ranks were proposed, but each rank held 1/8 of a sharded dataset, so
+  the total stayed about 1.9 TiB at any rank count.)*
 
 ## Diagnosing auth / permission / control failures — trace to the authoritative scope
 
